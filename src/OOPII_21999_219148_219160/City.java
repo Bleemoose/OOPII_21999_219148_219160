@@ -1,8 +1,8 @@
 package OOPII_21999_219148_219160;
 
 public class City {
-    private int[] terms_vector;
-    private float[] geodesic_vector;
+    private int[] terms_vector= new int[10];
+    private float[] geodesic_vector= new float[2];
 
     public City(int[] terms_vector, float[] geodesic_vector) {
         this.terms_vector = terms_vector;
