@@ -22,6 +22,7 @@ public class City {
     public City(String name) throws IOException {
         this.terms_vector = terms_vector;
         this.geodesic_vector = geodesic_vector;
+        this.name=name;
         geodesic_vector=getLocInfo(name);
     }
 
