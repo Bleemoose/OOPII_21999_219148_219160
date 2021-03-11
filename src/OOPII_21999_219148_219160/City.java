@@ -4,11 +4,14 @@ public class City {
     private int[] terms_vector;
     private float[] geodesic_vector;
 
+    //constructor
     public City(int[] terms_vector, float[] geodesic_vector) {
         this.terms_vector = terms_vector;
         this.geodesic_vector = geodesic_vector;
     }
 
+
+    //setters getters
     public int[] getTerms_vector() {
         return terms_vector;
     }
