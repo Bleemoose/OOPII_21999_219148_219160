@@ -18,12 +18,14 @@ public class City {
     private int[] terms_vector=new int[10];
     private float[] geodesic_vector=new float[2];
 
+    //constructor
     public City(String name) throws IOException {
         this.terms_vector = terms_vector;
         this.geodesic_vector = geodesic_vector;
         geodesic_vector=getLocInfo(name);
     }
 
+   //setters and getters
 
     public int[] getTerms_vector() {
         return terms_vector;
@@ -41,6 +43,7 @@ public class City {
         this.geodesic_vector = geodesic_vector;
     }
 
+    //location retriever
     private float[] getLocInfo(String  name) throws IOException {
         float[] data=new float[2];
         OkHttpClient client = new OkHttpClient().newBuilder()
