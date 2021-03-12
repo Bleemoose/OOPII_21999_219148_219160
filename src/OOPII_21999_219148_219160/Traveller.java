@@ -25,4 +25,10 @@ abstract class Traveller {
     public void setCurrentLocation(float[] currentLocation) {
         this.currentLocation = currentLocation;
     }
+
+    public int Calculate_Distance(City input){
+        return 0;
+    }
 }
+
+
