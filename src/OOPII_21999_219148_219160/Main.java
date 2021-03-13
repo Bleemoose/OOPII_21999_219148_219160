@@ -7,6 +7,6 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws IOException {
         City myCity= new City("Athens");
-        System.out.println("For city: "+myCity.name+"\nLatitude: "+myCity.getGeodesic_vector()[1]+"\nLongitude: "+myCity.getGeodesic_vector()[0]);
+        System.out.println("For city: "+myCity.getName()+"\nLatitude: "+myCity.getGeodesic_vector()[1]+"\nLongitude: "+myCity.getGeodesic_vector()[0]);
     }
 }

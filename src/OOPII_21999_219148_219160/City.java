@@ -14,7 +14,7 @@ geodesic_vector[1] is latitude
  */
 
 public class City {
-    public String name;
+    private String name;
     private int[] terms_vector=new int[10];
     private float[] geodesic_vector=new float[2];
 
@@ -27,6 +27,15 @@ public class City {
     }
 
    //setters and getters
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public int[] getTerms_vector() {
         return terms_vector;
