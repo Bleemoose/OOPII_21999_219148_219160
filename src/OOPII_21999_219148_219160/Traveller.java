@@ -29,6 +29,10 @@ abstract class Traveller {
     public int Calculate_Distance(City input){
         return 0;
     }
+
+    public float calculate_similarity(City inputCity){
+        return 1f;
+    }
 }
 
 
