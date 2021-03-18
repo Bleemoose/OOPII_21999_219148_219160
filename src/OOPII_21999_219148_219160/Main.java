@@ -9,8 +9,7 @@ public class Main {
         City myCity= new City("Athens");
         System.out.println("For city: "+myCity.getName()+"\nLatitude: "+myCity.getGeodesic_vector()[1]+"\nLongitude: "+myCity.getGeodesic_vector()[0]);
         int [][] pare = new int[0][];
-        YoungTraveler test= new YoungTraveler( pare , myCity.getGeodesic_vector());
-        System.out.println(test.calculate_similarity(myCity));
+        ElderTraveller test= new ElderTraveller( pare , myCity.getGeodesic_vector());
 
     }
 }
