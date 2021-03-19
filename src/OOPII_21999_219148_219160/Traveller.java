@@ -1,20 +1,21 @@
 package OOPII_21999_219148_219160;
 
 abstract class Traveller {
-    private int[][] termsRating;
+    private int[] termsRating;
     private float[] currentLocation;
+    private float p;
     //constructor
-    public Traveller(int[][] termsRating, float[] currentLocation) {
+    public Traveller(int[] termsRating, float[] currentLocation) {
         this.termsRating = termsRating;
         this.currentLocation = currentLocation;
     }
 
     //setters getters
-    public int[][] getTermsRating() {
+    public int[] getTermsRating() {
         return termsRating;
     }
 
-    public void setTermsRating(int[][] termsRating) {
+    public void setTermsRating(int[] termsRating) {
         this.termsRating = termsRating;
     }
 
@@ -26,13 +27,9 @@ abstract class Traveller {
         this.currentLocation = currentLocation;
     }
 
-    public int Calculate_Distance(City input){
-        return 0;
-    }
 
-    public float calculate_similarity(City inputCity){
-        return 1f;
-    }
+    public abstract double calculate_similarity(int [] userTerms, int [] cityTerms);
+
 }
 
 
