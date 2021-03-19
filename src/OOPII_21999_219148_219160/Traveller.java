@@ -30,6 +30,33 @@ abstract class Traveller {
 
     public abstract double calculate_similarity(int [] userTerms, int [] cityTerms);
 
+    public float getP() {
+        return p;
+    }
+
+    public void setP(float p) {
+        this.p = p;
+    }
+
+
+    /*
+        geodesic_vector[0] is longitude
+        geodesic_vector[1] is latitude
+        */
+    private  double geodesic_distance(City targetCity) {
+        if ((this.currentLocation[0] == targetCity.getGeodesic_vector()[0]) && (this.currentLocation[1] == targetCity.getGeodesic_vector()[1])) {
+            return 0;
+        }
+        else {
+            double theta = this.currentLocation[1] - targetCity.getGeodesic_vector()[1];
+            double dist = Math.sin(Math.toRadians(this.currentLocation[0])) * Math.sin(Math.toRadians(targetCity.getGeodesic_vector()[0])) + Math.cos(Math.toRadians(this.currentLocation[0])) * Math.cos(Math.toRadians(targetCity.getGeodesic_vector()[0])) * Math.cos(Math.toRadians(theta));
+            dist = Math.acos(dist);
+            dist = Math.toDegrees(dist);
+            dist = dist * 60 * 1.1515;
+            return (dist);
+        }
+    }
+
 }
 
 

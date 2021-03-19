@@ -33,4 +33,6 @@ public class MiddleTraveller extends Traveller{
         }
         return sum/(Math.sqrt(sum_a)*Math.sqrt(sum_b));
     }
+
+
 }
