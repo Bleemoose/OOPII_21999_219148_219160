@@ -12,18 +12,19 @@ public class YoungTraveler extends Traveller{
     //hmm?
     public YoungTraveler(int[] termsRating, float[] currentLocation) {
         super(termsRating, currentLocation);
-        System.out.println(calculate_similarity(terms_vector_user, terms_vector_tokyo));
-        System.out.println(calculate_similarity(terms_vector_user,terms_vector_rome));
-        System.out.println(calculate_similarity(terms_vector_user,terms_vector_london));
-        System.out.println(calculate_similarity(new int[]{9, 9, 9, 9, 9, 9, 9, 9, 9, 9}, new int[]{9, 9, 9, 9, 9, 9, 9, 9, 9, 9}));
-        System.out.println(calculate_similarity(new int[]{9, 9, 9, 9, 9, 9, 9, 9, 9, 9}, new int[]{9, 9, 9, 9, 9, 9, 9, 9, 9, 8}));
-        System.out.println(calculate_similarity(new int[]{9, 9, 9, 9, 9, 9, 9, 9, 9, 9}, new int[]{9, 9, 9, 9, 9, 9, 9, 9, 9, 0}));
-        System.out.println(calculate_similarity(new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 1}));
-        System.out.println(calculate_similarity(new int[]{9, 9, 9, 9, 9, 9, 9, 9, 9, 9}, new int[]{9, 9, 9, 9, 9, 0, 0, 0, 0, 0}));
-        System.out.println(calculate_similarity(new int[]{9, 9, 9, 9, 9, 9, 9, 9, 9, 9}, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}));
+        this.setP(0.7f);
+        System.out.println(calculate_terms_similarity(terms_vector_user, terms_vector_tokyo));
+        System.out.println(calculate_terms_similarity(terms_vector_user,terms_vector_rome));
+        System.out.println(calculate_terms_similarity(terms_vector_user,terms_vector_london));
+        System.out.println(calculate_terms_similarity(new int[]{9, 9, 9, 9, 9, 9, 9, 9, 9, 9}, new int[]{9, 9, 9, 9, 9, 9, 9, 9, 9, 9}));
+        System.out.println(calculate_terms_similarity(new int[]{9, 9, 9, 9, 9, 9, 9, 9, 9, 9}, new int[]{9, 9, 9, 9, 9, 9, 9, 9, 9, 8}));
+        System.out.println(calculate_terms_similarity(new int[]{9, 9, 9, 9, 9, 9, 9, 9, 9, 9}, new int[]{9, 9, 9, 9, 9, 9, 9, 9, 9, 0}));
+        System.out.println(calculate_terms_similarity(new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 1}));
+        System.out.println(calculate_terms_similarity(new int[]{9, 9, 9, 9, 9, 9, 9, 9, 9, 9}, new int[]{9, 9, 9, 9, 9, 0, 0, 0, 0, 0}));
+        System.out.println(calculate_terms_similarity(new int[]{9, 9, 9, 9, 9, 9, 9, 9, 9, 9}, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}));
     }
     @Override
-    public double calculate_similarity (int [] userTerms, int [] cityTerms){
+    public double calculate_terms_similarity(int [] userTerms, int [] cityTerms){
         double Sum = 0.0;
         for(int i=0;i<userTerms.length;i++) {
             Sum = Sum + Math.pow((userTerms[i]-cityTerms[i]),2);

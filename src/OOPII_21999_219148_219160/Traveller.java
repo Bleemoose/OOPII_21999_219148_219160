@@ -28,7 +28,7 @@ abstract class Traveller {
     }
 
 
-    public abstract double calculate_similarity(int [] userTerms, int [] cityTerms);
+    public abstract double calculate_terms_similarity(int [] userTerms, int [] cityTerms);
 
     public float getP() {
         return p;
