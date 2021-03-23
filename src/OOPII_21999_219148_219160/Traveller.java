@@ -57,6 +57,11 @@ abstract class Traveller {
         }
     }
 
+    public double calculate_similarity(City targetCity){
+        return this.p*calculate_terms_similarity(termsRating,targetCity.getTerms_vector()) + (1-p)*geodesic_distance(targetCity);
+    }
+
 }
+
 
 
