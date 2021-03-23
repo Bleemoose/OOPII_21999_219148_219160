@@ -43,23 +43,25 @@ abstract class Traveller {
         geodesic_vector[0] is longitude
         geodesic_vector[1] is latitude
         */
-    private  double geodesic_distance(City targetCity) {
-        if ((this.currentLocation[0] == targetCity.getGeodesic_vector()[0]) && (this.currentLocation[1] == targetCity.getGeodesic_vector()[1])) {
+    public  double calculate_distance(City targetCity) {
+        if ((this.currentLocation[1] == targetCity.getGeodesic_vector()[1]) && (this.currentLocation[0] == targetCity.getGeodesic_vector()[0])) {
             return 0;
         }
         else {
-            double theta = this.currentLocation[1] - targetCity.getGeodesic_vector()[1];
-            double dist = Math.sin(Math.toRadians(this.currentLocation[0])) * Math.sin(Math.toRadians(targetCity.getGeodesic_vector()[0])) + Math.cos(Math.toRadians(this.currentLocation[0])) * Math.cos(Math.toRadians(targetCity.getGeodesic_vector()[0])) * Math.cos(Math.toRadians(theta));
+            double theta = this.currentLocation[0] - targetCity.getGeodesic_vector()[0];
+            double dist = Math.sin(Math.toRadians(this.currentLocation[1])) * Math.sin(Math.toRadians(targetCity.getGeodesic_vector()[1])) + Math.cos(Math.toRadians(this.currentLocation[1])) * Math.cos(Math.toRadians(targetCity.getGeodesic_vector()[1])) * Math.cos(Math.toRadians(theta));
             dist = Math.acos(dist);
             dist = Math.toDegrees(dist);
             dist = dist * 60 * 1.1515;
+            dist = dist * 1.609344; // convert to kilometres
             return (dist);
         }
     }
 
-    public double calculate_similarity(City targetCity){
-        return this.p*calculate_terms_similarity(termsRating,targetCity.getTerms_vector()) + (1-p)*geodesic_distance(targetCity);
 
+
+    public double calculate_similarity(City targetCity){
+        return p*calculate_terms_similarity(termsRating,targetCity.getTerms_vector()) + (1-p)* calculate_distance(targetCity);
     }
 
 }
