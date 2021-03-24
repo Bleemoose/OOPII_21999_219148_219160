@@ -1,10 +1,10 @@
 package OOPII_21999_219148_219160;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-
 import java.io.IOException;
 
 
@@ -13,17 +13,29 @@ geodesic_vector[0] is longitude
 geodesic_vector[1] is latitude
  */
 
+/*
+terms_vector[0]=Museum
+terms_vector[1]=History
+terms_vector[2]=Car
+terms_vector[3]=Bike
+terms_vector[4]=Food
+terms_vector[5]=Mountain
+terms_vector[6]=Cafe
+terms_vector[7]=Shopping
+terms_vector[8]=Sea
+terms_vector[9]=Nightlife
+ */
+
 public class City {
     private String name;
-    private int[] terms_vector=new int[10];
-    private float[] geodesic_vector=new float[2];
+    private int[] terms_vector;
+    private float[] geodesic_vector;
 
     //constructor
     public City(String name) throws IOException {
-        this.terms_vector = terms_vector;
-        this.geodesic_vector = geodesic_vector;
         this.name=name;
         geodesic_vector=getLocInfo(name);
+        terms_vector=getTerms(name);
     }
 
    //setters and getters
@@ -56,10 +68,11 @@ public class City {
     //location retriever
     private float[] getLocInfo(String  name) throws IOException {
         float[] data=new float[2];
+        String APIid="eeba41d7d3d95a8dad6d4c3ae375f602";
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url("https://api.openweathermap.org/data/2.5/weather?q="+name+"&appid=eeba41d7d3d95a8dad6d4c3ae375f602")
+                .url("https://api.openweathermap.org/data/2.5/weather?q="+name+"&appid="+APIid)
                 .method("GET", null)
                 .build();
         String response = client.newCall(request).execute().body().string();
@@ -68,5 +81,24 @@ public class City {
         data[0]= Float.parseFloat(jsonCoord.get("lon").toString());
         data[1]= Float.parseFloat(jsonCoord.get("lat").toString());
         return data;
+    }
+
+    private int[] getTerms(String name) throws IOException {
+        int[] terms_temp=new int[10];
+        String [] term_names={"museum","history","car","bike","food","mountain","cafe","shopping","sea","nightlife"};
+        String nameFinal = name.substring( 0, name.indexOf(",")); //removes comma from search
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        Request request = new Request.Builder()
+                .url("https://en.wikipedia.org/w/api.php?action=query&prop=extracts&titles="+nameFinal+"&format=json&formatversion=2")
+                .method("GET", null)
+                .build();
+        String response = client.newCall(request).execute().body().string();
+        JsonElement jsonResponse= JsonParser.parseString(response).getAsJsonObject();
+        JsonElement jsonPages=  jsonResponse.getAsJsonObject().get("query").getAsJsonObject().get("pages");
+        for (int i = 0; i < terms_temp.length; i++) {
+            terms_temp[i]=CountWords.countCriterionfCity(jsonPages.toString(),term_names[i]);
+        }
+        return terms_temp;
     }
 }
