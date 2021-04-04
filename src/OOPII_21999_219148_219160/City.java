@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import java.io.IOException;
+import java.io.InvalidClassException;
 
 
 /*
@@ -26,16 +27,27 @@ terms_vector[8]=Sea
 terms_vector[9]=Nightlife
  */
 
+class InvalidCityException extends Exception{
+    InvalidCityException(String s){
+        super(s);
+    }
+}
+
 public class City {
     private String name;
     private int[] terms_vector;
     private float[] geodesic_vector;
 
     //constructor
-    public City(String name) throws IOException {
+    public City(String name) {
         this.name=name;
-        geodesic_vector=getLocInfo(name);
-        terms_vector=getTerms(name);
+        try {
+            geodesic_vector = getLocInfo(name);
+            terms_vector = getTerms(name);
+        }
+        catch (Exception e){
+            System.out.println("City not found");
+        }
     }
 
    //setters and getters
@@ -66,7 +78,7 @@ public class City {
     }
 
     //location retriever
-    private float[] getLocInfo(String  name) throws IOException {
+    private float[] getLocInfo(String  name) throws IOException,InvalidCityException {
         float[] data=new float[2];
         String APIid="eeba41d7d3d95a8dad6d4c3ae375f602";
         OkHttpClient client = new OkHttpClient().newBuilder()
@@ -77,13 +89,16 @@ public class City {
                 .build();
         String response = client.newCall(request).execute().body().string();
         JsonObject jsonResponse = JsonParser.parseString(response).getAsJsonObject();
+        if(response.contains("404")){
+            throw new InvalidCityException(name);
+        }
         JsonObject jsonCoord=jsonResponse.getAsJsonObject("coord");
         data[0]= Float.parseFloat(jsonCoord.get("lon").toString());
         data[1]= Float.parseFloat(jsonCoord.get("lat").toString());
         return data;
-    }
+        }
 
-    private int[] getTerms(String name) throws IOException {
+    private int[] getTerms(String name) throws IOException, InvalidCityException {
         int[] terms_temp=new int[10];
         String [] term_names={"museum","history","car","bike","food","mountain","cafe","shopping","sea","nightlife"};
         String nameFinal = name.substring( 0, name.indexOf(",")); //removes comma from search
@@ -94,6 +109,9 @@ public class City {
                 .method("GET", null)
                 .build();
         String response = client.newCall(request).execute().body().string();
+        if(response.contains("\"missing\": true")){
+            throw new InvalidCityException(name);
+        }
         JsonElement jsonResponse= JsonParser.parseString(response).getAsJsonObject();
         JsonElement jsonPages=  jsonResponse.getAsJsonObject().get("query").getAsJsonObject().get("pages");
         for (int i = 0; i < terms_temp.length; i++) {
