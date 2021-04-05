@@ -1,5 +1,7 @@
 package OOPII_21999_219148_219160;
 
+import java.util.ArrayList;
+
 abstract class Traveller {
     private int[] termsRating;
     private float[] currentLocation;
@@ -82,7 +84,23 @@ abstract class Traveller {
         return p*calculate_terms_similarity(termsRating,targetCity.getTerms_vector()) + (1-p)* similarity_geodesic_vector(targetCity);
     }
 
+    public City compare_cities(ArrayList<City> cityArrayList){
+        double max = -1f;
+        int loc = 0;
+        if (cityArrayList.size() >= 1){
+            loc = 0;
+            max = calculate_similarity(cityArrayList.get(0));
+        }else{
+            //edw prepei na petaei exception
+            System.out.println("Egine malakia");
+        }
+       for (int i = 1;i < cityArrayList.size();i++){
+           if (calculate_similarity(cityArrayList.get(i)) > max){
+                loc = i;
+                max = calculate_similarity(cityArrayList.get(i));
+           }
+       }
+        return cityArrayList.get(loc);
+    }
+
 }
-
-
-
