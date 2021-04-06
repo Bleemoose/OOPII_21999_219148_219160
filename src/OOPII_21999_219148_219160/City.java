@@ -46,7 +46,7 @@ public class City {
             terms_vector = getTerms(name);
         }
         catch (Exception e){
-            System.out.println("City not found");
+            System.out.println("City: " + name + " Not found") ;
         }
     }
 

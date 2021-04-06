@@ -2,6 +2,15 @@ package OOPII_21999_219148_219160;
 
 import java.util.ArrayList;
 
+class EmptyArrayList extends Exception{
+    EmptyArrayList(String s){
+        super(s);
+    }
+}
+
+
+
+
 abstract class Traveller {
     private int[] termsRating;
     private float[] currentLocation;
@@ -84,15 +93,15 @@ abstract class Traveller {
         return p*calculate_terms_similarity(termsRating,targetCity.getTerms_vector()) + (1-p)* similarity_geodesic_vector(targetCity);
     }
 
-    public City compare_cities(ArrayList<City> cityArrayList){
+    public City compare_cities(ArrayList<City> cityArrayList) {
         double max = -1f;
         int loc = 0;
-        if (cityArrayList.size() >= 1){
+        try {
             loc = 0;
             max = calculate_similarity(cityArrayList.get(0));
-        }else{
-            //edw prepei na petaei exception
-            System.out.println("Egine malakia");
+        }catch (Exception e){
+            System.out.println("ArrayList is empty");
+            return null;
         }
        for (int i = 1;i < cityArrayList.size();i++){
            if (calculate_similarity(cityArrayList.get(i)) > max){
@@ -102,5 +111,37 @@ abstract class Traveller {
        }
         return cityArrayList.get(loc);
     }
+    public  City[] compare_cities(ArrayList<City> cityArrayList,int amount){
+        if (cityArrayList.size() < 2){
+            System.out.println("Invalid arraylist size");
+        }
+        City[] returnArr = new City[amount];
+        double[] similarityArr = new double[cityArrayList.size()];
+        int[] locArr = new int[cityArrayList.size()];
+        for (int i = 0; i < cityArrayList.size();i++){
+            similarityArr[i] = calculate_similarity(cityArrayList.get(i));
+            locArr[i] = i;
+        }
+        int n = cityArrayList.size();
+        double temp;
+        int tmp2;
+        for(int i=0; i < n; i++){
+            for(int j=1; j < (n-i); j++){
+                if(similarityArr[j-1] < similarityArr[j]){
+                    //swap elements
+                    temp = similarityArr[j-1];
+                    similarityArr[j-1] = similarityArr[j];
+                    similarityArr[j] = temp;
+                    tmp2 = locArr[j-1];
+                    locArr[j-1] = locArr[j];
+                    locArr[j] = tmp2;
+                }
 
+            }
+        }
+        for (int i =0 ; i < amount;i++){
+            returnArr[i] = cityArrayList.get(locArr[i]);
+        }
+        return returnArr;
+    }
 }
