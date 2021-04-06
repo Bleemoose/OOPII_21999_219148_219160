@@ -33,6 +33,12 @@ class InvalidCityException extends Exception{
     }
 }
 
+class InvalidInputException extends Exception{
+    InvalidInputException(String s){
+        super(s);
+    }
+}
+
 public class City {
     private String name;
     private int[] terms_vector;
@@ -45,8 +51,13 @@ public class City {
             geodesic_vector = getLocInfo(name);
             terms_vector = getTerms(name);
         }
-        catch (Exception e){
+        catch (InvalidCityException e){
             System.out.println("City: " + name + " Not found") ;
+        }
+        catch (InvalidInputException e){
+            System.out.println("Input: "+name+" is invalid,please add a comma and the countries two letter code");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -98,10 +109,16 @@ public class City {
         return data;
         }
 
-    private int[] getTerms(String name) throws IOException, InvalidCityException {
+    private int[] getTerms(String name) throws IOException, InvalidCityException, InvalidInputException {
         int[] terms_temp=new int[10];
+        String nameFinal;
         String [] term_names={"museum","history","car","bike","food","mountain","cafe","shopping","sea","nightlife"};
-        String nameFinal = name.substring( 0, name.indexOf(",")); //removes comma from search
+        if(name.lastIndexOf(",")!=-1){
+            nameFinal = name.substring( 0, name.indexOf(",")); //removes comma from search
+        }
+        else{
+            throw new InvalidInputException(name);
+        }
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
