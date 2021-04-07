@@ -2,8 +2,8 @@ package OOPII_21999_219148_219160;
 
 import java.util.ArrayList;
 
-class EmptyArrayList extends Exception{
-    EmptyArrayList(String s){
+class ArrayListException extends Exception{
+    ArrayListException(String s){
         super(s);
     }
 }
@@ -93,16 +93,16 @@ abstract class Traveller {
         return p*calculate_terms_similarity(termsRating,targetCity.getTerms_vector()) + (1-p)* similarity_geodesic_vector(targetCity);
     }
 
-    public City compare_cities(ArrayList<City> cityArrayList) {
+    public City compare_cities(ArrayList<City> cityArrayList) throws ArrayListException {
         double max = -1f;
         int loc = 0;
-        try {
+
+        if (cityArrayList.size() == 0){
+            throw new ArrayListException("Empty ArrayList");
+        }
             loc = 0;
             max = calculate_similarity(cityArrayList.get(0));
-        }catch (Exception e){
-            System.out.println("ArrayList is empty");
-            return null;
-        }
+
        for (int i = 1;i < cityArrayList.size();i++){
            if (calculate_similarity(cityArrayList.get(i)) > max){
                 loc = i;
@@ -111,9 +111,9 @@ abstract class Traveller {
        }
         return cityArrayList.get(loc);
     }
-    public  City[] compare_cities(ArrayList<City> cityArrayList,int amount){
+    public  City[] compare_cities(ArrayList<City> cityArrayList,int amount) throws ArrayListException {
         if (cityArrayList.size() < 2){
-            System.out.println("Invalid arraylist size");
+            throw new ArrayListException("Invalid ArrayList size");
         }
         City[] returnArr = new City[amount];
         double[] similarityArr = new double[cityArrayList.size()];
