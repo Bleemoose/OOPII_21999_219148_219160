@@ -1,6 +1,8 @@
 package OOPII_21999_219148_219160;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /*
 WHEN CREATING A CITY IT SHOULD BE ALWAYS FOLLOWED BY A COMMA AND THE TWO LETTER CODE OF THE COUNTRY
@@ -23,15 +25,16 @@ public class Main {
         City LondonC = new City("London,UK");
         City BerlinC = new City("Berlin,GER");
 
+
+        Map<String , City> citiesMap= new HashMap<>();
+        citiesMap.put(LondonC.getName(),LondonC);
+        citiesMap.put(BerlinC.getName(),BerlinC);
+
+
+
+
         try{
             System.out.println(test.compare_cities(testingList).getName());
-
-            City[] testArr = test.compare_cities(testingList,3);
-            for (int i = 0 ; i < 3 ; i++){
-                System.out.println(testArr[i].getName());
-            }
-
-
             ArrayList<Traveller> travellers = new ArrayList<Traveller>();
             travellers.add(test);
             YoungTraveler test2 = new YoungTraveler(pare, BerlinC.getGeodesic_vector());

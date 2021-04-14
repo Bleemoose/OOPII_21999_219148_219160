@@ -1,6 +1,7 @@
 package OOPII_21999_219148_219160;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 class ArrayListException extends Exception{
     ArrayListException(String s){
@@ -15,6 +16,8 @@ abstract class Traveller {
     private int[] termsRating;
     private float[] currentLocation;
     private float p;
+    private Date timestamp;
+    private String lastRecommendedCity;
     //constructor
     public Traveller(int[] termsRating, float[] currentLocation) {
         this.termsRating = termsRating;
@@ -38,6 +41,23 @@ abstract class Traveller {
         this.currentLocation = currentLocation;
     }
 
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getLastRecommendedCity() {
+        return lastRecommendedCity;
+    }
+
+    public void setLastRecommendedCity(String lastRecommendedCity) {
+        this.lastRecommendedCity = lastRecommendedCity;
+    }
+
+    //***************************************************************//
 
     public abstract double calculate_terms_similarity(int [] userTerms, int [] cityTerms);
 
