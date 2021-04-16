@@ -1,6 +1,7 @@
 package OOPII_21999_219148_219160;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,7 +30,9 @@ public class Main {
         Map<String , City> citiesMap= new HashMap<>();
         citiesMap.put(LondonC.getName(),LondonC);
         citiesMap.put(BerlinC.getName(),BerlinC);
-
+        Date current = new Date();
+        test.setTimestamp(current);
+        System.out.println(test.getTimestamp().toString());
 
 
 
