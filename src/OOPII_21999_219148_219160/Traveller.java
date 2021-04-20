@@ -12,7 +12,7 @@ class ArrayListException extends Exception{
 
 
 
-abstract class Traveller implements Comparable {
+abstract class Traveller implements Comparable<Traveller> {
     private int[] termsRating;
     private float[] currentLocation;
     private float p;
@@ -164,12 +164,13 @@ abstract class Traveller implements Comparable {
         }
         return returnArr;
     }
-
-
-
     public int compareTo(Traveller o) {
         //aplos tsekare timestamps <3
         //returns 0 if dates are equal returns >0 if this is after 0 and <0 if o is after this
         return this.timestamp.compareTo(o.timestamp);
     }
+
+
+
+
 }

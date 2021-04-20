@@ -17,4 +17,6 @@ public class YoungTraveler extends Traveller{
         }
         return 1/(1+Math.sqrt(Sum));
     }
+
+
 }
