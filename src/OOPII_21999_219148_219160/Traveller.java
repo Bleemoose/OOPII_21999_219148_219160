@@ -167,8 +167,9 @@ abstract class Traveller implements Comparable {
 
 
 
-    public int compareTo(Object o) {
+    public int compareTo(Traveller o) {
         //aplos tsekare timestamps <3
-        return 0;
+        //returns 0 if dates are equal returns >0 if this is after 0 and <0 if o is after this
+        return this.timestamp.compareTo(o.timestamp);
     }
 }
