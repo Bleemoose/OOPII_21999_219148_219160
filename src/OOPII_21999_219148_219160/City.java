@@ -44,20 +44,11 @@ public class City {
     private float[] geodesic_vector;
 
     //constructor
-    public City(String name) {
+    public City(String name) throws IOException, InvalidCityException, InvalidInputException {
         this.name=name;
-        try {
-            geodesic_vector = getLocInfo(name);
-            terms_vector = getTerms(name);
-        }
-        catch (InvalidCityException e){
-            System.out.println("City: " + name + " Not found") ;
-        }
-        catch (InvalidInputException e){
-            System.out.println("Input: "+name+" is invalid,please add a comma and the countries two letter code");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        geodesic_vector = getLocInfo(name);
+        terms_vector = getTerms(name);
+
     }
 
    //setters and getters

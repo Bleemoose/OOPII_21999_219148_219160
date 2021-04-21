@@ -5,8 +5,8 @@ import java.lang.Math;
 public class YoungTraveler extends Traveller{
 
 
-    public YoungTraveler(int[] termsRating, float[] currentLocation) {
-        super(termsRating, currentLocation);
+    public YoungTraveler(int[] termsRating, float[] currentLocation,String fullName) {
+        super(termsRating, currentLocation,fullName);
         this.setP(0.7f);
     }
     @Override

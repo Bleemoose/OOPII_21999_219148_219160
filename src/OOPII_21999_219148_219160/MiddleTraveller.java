@@ -4,8 +4,8 @@ import java.lang.Math;
 
 public  class MiddleTraveller extends Traveller{
 
-    public MiddleTraveller(int[] termsRating, float[] currentLocation) {
-        super(termsRating, currentLocation);
+    public MiddleTraveller(int[] termsRating, float[] currentLocation,String fullName) {
+        super(termsRating, currentLocation,fullName);
         this.setP(0.5f);
     }
     @Override

@@ -12,16 +12,20 @@ class ArrayListException extends Exception{
 
 
 
-abstract class Traveller implements Comparable<Traveller> {
+abstract class Traveller implements Comparable<Traveller>{
     private int[] termsRating;
     private float[] currentLocation;
     private float p;
     private Date timestamp;
     private String lastRecommendedCity;
+    private String fullName;
     //constructor
-    public Traveller(int[] termsRating, float[] currentLocation) {
+
+
+    public Traveller(int[] termsRating, float[] currentLocation, String fullName) {
         this.termsRating = termsRating;
         this.currentLocation = currentLocation;
+        this.fullName = fullName;
     }
 
     //setters getters
@@ -55,6 +59,14 @@ abstract class Traveller implements Comparable<Traveller> {
 
     public void setLastRecommendedCity(String lastRecommendedCity) {
         this.lastRecommendedCity = lastRecommendedCity;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     //***************************************************************//

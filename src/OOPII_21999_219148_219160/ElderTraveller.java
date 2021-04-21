@@ -2,8 +2,8 @@ package OOPII_21999_219148_219160;
 
 public class ElderTraveller extends Traveller{
 
-    public ElderTraveller(int[] termsRating, float[] currentLocation) {
-        super(termsRating, currentLocation);
+    public ElderTraveller(int[] termsRating, float[] currentLocation,String fullName) {
+        super(termsRating, currentLocation,fullName);
         this.setP(0.3f);
     }
 
