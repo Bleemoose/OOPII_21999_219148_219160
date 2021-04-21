@@ -6,6 +6,7 @@ import java.util.*;
 /*
 WHEN CREATING A CITY IT SHOULD BE ALWAYS FOLLOWED BY A COMMA AND THE TWO LETTER CODE OF THE COUNTRY
  */
+
 public class Main {
 
     public static boolean addNewCity(HashMap cityMap, String newCityName) {
@@ -28,7 +29,7 @@ public class Main {
 
     public static void main(String[] args) throws ArrayListException {
         int input,age;
-        String name,cityName;
+        String name,cityName = null;
         boolean flag;
         Scanner scanner  = new Scanner(System.in);
         ArrayList<Traveller> travellerList = new ArrayList<>();
@@ -36,10 +37,12 @@ public class Main {
 
        while (true){
            try{
-               System.out.println("fadasou menu edw");
+               System.out.println("Main Menu:\n1.New Traveller");
                input = scanner.nextInt();
                scanner.nextLine();
                if (input == 1){
+                   String [] term_names={"museum","history","car","bike","food","mountain","cafe","shopping","sea","nightlife"};
+                   int [] traveller_terms= new int[term_names.length];
                    flag = false;
                    System.out.println("Give name");
                    name = scanner.nextLine();
@@ -55,12 +58,22 @@ public class Main {
                            flag = true;
                        }
                    }
-
-
+                   System.out.println("Please enter from 1 to 10 how much you like the following");
+                   for(int i=0; i<term_names.length;i++){
+                       System.out.println(term_names[i]);
+                       traveller_terms[i]=scanner.nextInt();
+                       scanner.nextLine();
+                   }
+                   if(age>60 && age<=115){
+                       travellerList.add(new ElderTraveller(traveller_terms,cityMap.get(cityName).getGeodesic_vector(),name));
+                   }
+                   if(age>25 && age<=60){
+                       travellerList.add(new MiddleTraveller(traveller_terms,cityMap.get(cityName).getGeodesic_vector(),name));
+                   }
+                   if(age>=16 && age<=25){
+                       travellerList.add(new YoungTraveler(traveller_terms,cityMap.get(cityName).getGeodesic_vector(),name));
+                   }
                }
-
-
-
 
            }catch (Exception e){
 
