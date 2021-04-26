@@ -60,9 +60,11 @@ public class Main {
                    }
                    System.out.println("Please enter from 1 to 10 how much you like the following");
                    for(int i=0; i<term_names.length;i++){
-                       System.out.println(term_names[i]);
-                       traveller_terms[i]=scanner.nextInt();
-                       scanner.nextLine();
+                       do {
+                           System.out.println(term_names[i]);
+                           traveller_terms[i] = scanner.nextInt();
+                           scanner.nextLine();
+                       }while(traveller_terms[i]<1 || traveller_terms[i] >10);
                    }
                    if(age>60 && age<=115){
                        travellerList.add(new ElderTraveller(traveller_terms,cityMap.get(cityName).getGeodesic_vector(),name));
