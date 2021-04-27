@@ -20,15 +20,11 @@ public class Main {
             City newCity = new City(newCityName);
             cityMap.put(newCity.getName(), newCity);
             return true;
-        } catch (InvalidCityException e) {
-            System.out.println("City: " + newCityName + " Not found");
-            return false;
-
         } catch (InvalidInputException e) {
             System.out.println("Input: " + newCityName + " is invalid,please add a comma and the countries two letter code");
             return false;
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("City: " + newCityName + " Not found");
             return false;
         }
     }
@@ -67,6 +63,7 @@ public class Main {
                        System.out.println("Give current city");
                        cityName = scanner.nextLine();
                        if (!cityMap.containsKey(cityName)) {
+                           System.out.println("Please wait,retrieving city information....");
                         flag =  addNewCity(cityMap,cityName);
                        }else{
                            flag = true;
@@ -92,7 +89,6 @@ public class Main {
 
                }
                if(input==2){
-                   System.out.println("Debug Breakpoint");
                    Clients cl_temp=new Clients();
                    cl_temp.setTravellers(travellerList);
                    String jsonDataString = mapper.writeValueAsString(cl_temp);
