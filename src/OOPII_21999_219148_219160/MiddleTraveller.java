@@ -1,10 +1,14 @@
 package OOPII_21999_219148_219160;
 
+
 import java.lang.Math;
 
 public  class MiddleTraveller extends Traveller{
+    public MiddleTraveller() {
 
-    public MiddleTraveller(int[] termsRating, float[] currentLocation,String fullName) {
+    }
+
+    public MiddleTraveller(int[] termsRating, float[] currentLocation, String fullName) {
         super(termsRating, currentLocation,fullName);
         this.setP(0.5f);
     }

@@ -1,11 +1,13 @@
 package OOPII_21999_219148_219160;
 
+
 import java.lang.Math;
-
 public class YoungTraveler extends Traveller{
+    public YoungTraveler() {
+        super();
+    }
 
-
-    public YoungTraveler(int[] termsRating, float[] currentLocation,String fullName) {
+    public YoungTraveler(int[] termsRating, float[] currentLocation, String fullName) {
         super(termsRating, currentLocation,fullName);
         this.setP(0.7f);
     }

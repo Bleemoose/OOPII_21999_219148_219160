@@ -1,11 +1,11 @@
 package OOPII_21999_219148_219160;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.IOException;
+import java.net.URL;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 /*
@@ -82,20 +82,13 @@ public class City {
     private float[] getLocInfo(String  name) throws IOException,InvalidCityException {
         float[] data=new float[2];
         String APIid="eeba41d7d3d95a8dad6d4c3ae375f602";
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
-        Request request = new Request.Builder()
-                .url("https://api.openweathermap.org/data/2.5/weather?q="+name+"&appid="+APIid)
-                .method("GET", null)
-                .build();
-        String response = client.newCall(request).execute().body().string();
-        JsonObject jsonResponse = JsonParser.parseString(response).getAsJsonObject();
-        if(response.contains("404")){
+        final ObjectNode node=new ObjectMapper().readValue(new URL("http://api.openweathermap.org/data/2.5/weather?q="+name+"&APPID="+APIid+""),ObjectNode.class);
+        JsonNode coords=node.get("coord");
+        data[0]=Float.parseFloat(coords.get("lon").asText());
+        data[1]=Float.parseFloat(coords.get("lat").asText());
+        if(node.asText().contains("404")){
             throw new InvalidCityException(name);
         }
-        JsonObject jsonCoord=jsonResponse.getAsJsonObject("coord");
-        data[0]= Float.parseFloat(jsonCoord.get("lon").toString());
-        data[1]= Float.parseFloat(jsonCoord.get("lat").toString());
         return data;
         }
 
@@ -109,18 +102,11 @@ public class City {
         else{
             throw new InvalidInputException(name);
         }
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
-        Request request = new Request.Builder()
-                .url("https://en.wikipedia.org/w/api.php?action=query&prop=extracts&titles="+nameFinal+"&format=json&formatversion=2")
-                .method("GET", null)
-                .build();
-        String response = client.newCall(request).execute().body().string();
-        if(response.contains("\"missing\": true")){
+        final ObjectNode node=new ObjectMapper().readValue(new URL("https://en.wikipedia.org/w/api.php?action=query&prop=extracts&titles="+nameFinal+"&format=json&formatversion=2"),ObjectNode.class);
+        if(node.asText().contains("\"missing\": true")){
             throw new InvalidCityException(name);
         }
-        JsonElement jsonResponse= JsonParser.parseString(response).getAsJsonObject();
-        JsonElement jsonPages=  jsonResponse.getAsJsonObject().get("query").getAsJsonObject().get("pages");
+        JsonNode jsonPages=node.get("query").get("pages");
         for (int i = 0; i < terms_temp.length; i++) {
             terms_temp[i]=CountWords.countCriterionfCity(jsonPages.toString(),term_names[i]);
         }

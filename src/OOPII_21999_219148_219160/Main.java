@@ -1,6 +1,11 @@
 package OOPII_21999_219148_219160;
 
-import java.io.IOException;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
+import java.io.*;
+import java.nio.file.Files;
 import java.util.*;
 
 /*
@@ -9,7 +14,8 @@ WHEN CREATING A CITY IT SHOULD BE ALWAYS FOLLOWED BY A COMMA AND THE TWO LETTER 
 
 public class Main {
 
-    public static boolean addNewCity(HashMap cityMap, String newCityName) {
+
+    public static boolean addNewCity(HashMap<String, City> cityMap, String newCityName) {
         try {
             City newCity = new City(newCityName);
             cityMap.put(newCity.getName(), newCity);
@@ -27,17 +33,25 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) throws ArrayListException {
+    public static void main(String[] args) throws IOException {
+        ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+        mapper.enableDefaultTyping(); //deprecated
         int input,age;
         String name,cityName = null;
         boolean flag;
+        File f=new File("travellers.json");
+        ArrayList<Traveller> travellerList=new ArrayList<>();
+        if(f.exists()){
+            String deserializedJsonString= Files.readString(f.toPath());
+            Clients cl_temp=mapper.readValue(deserializedJsonString,Clients.class);
+            travellerList= (ArrayList<Traveller>) cl_temp.getTravellers();
+        }
         Scanner scanner  = new Scanner(System.in);
-        ArrayList<Traveller> travellerList = new ArrayList<>();
         HashMap<String,City> cityMap = new HashMap<>();
 
        while (true){
            try{
-               System.out.println("Main Menu:\n1.New Traveller");
+               System.out.println("Main Menu:\n1.New Traveller \n2.Save traveller list");
                input = scanner.nextInt();
                scanner.nextLine();
                if (input == 1){
@@ -75,6 +89,16 @@ public class Main {
                    if(age>=16 && age<=25){
                        travellerList.add(new YoungTraveler(traveller_terms,cityMap.get(cityName).getGeodesic_vector(),name));
                    }
+
+               }
+               if(input==2){
+                   System.out.println("Debug Breakpoint");
+                   Clients cl_temp=new Clients();
+                   cl_temp.setTravellers(travellerList);
+                   String jsonDataString = mapper.writeValueAsString(cl_temp);
+                   BufferedWriter writer = new BufferedWriter(new FileWriter("travellers.json"));
+                   writer.write(jsonDataString);
+                   writer.close();
                }
 
            }catch (Exception e){

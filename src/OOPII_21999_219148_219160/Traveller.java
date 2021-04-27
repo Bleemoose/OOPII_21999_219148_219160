@@ -1,5 +1,10 @@
 package OOPII_21999_219148_219160;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -8,8 +13,6 @@ class ArrayListException extends Exception{
         super(s);
     }
 }
-
-
 
 
 abstract class Traveller implements Comparable<Traveller>{
@@ -26,6 +29,10 @@ abstract class Traveller implements Comparable<Traveller>{
         this.termsRating = termsRating;
         this.currentLocation = currentLocation;
         this.fullName = fullName;
+    }
+
+    public Traveller() {
+
     }
 
     //setters getters
