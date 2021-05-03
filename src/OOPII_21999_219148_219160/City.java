@@ -26,12 +26,6 @@ terms_vector[8]=Sea
 terms_vector[9]=Nightlife
  */
 
-class InvalidCityException extends Exception{
-    InvalidCityException(String s){
-        super(s);
-    }
-}
-
 class InvalidInputException extends Exception{
     InvalidInputException(String s){
         super(s);
@@ -44,7 +38,7 @@ public class City {
     private float[] geodesic_vector;
 
     //constructor
-    public City(String name) throws IOException, InvalidCityException, InvalidInputException {
+    public City(String name) throws IOException, InvalidInputException {
         this.name=name;
         geodesic_vector = getLocInfo(name);
         terms_vector = getTerms(name);
@@ -79,20 +73,17 @@ public class City {
     }
 
     //location retriever
-    private float[] getLocInfo(String  name) throws IOException,InvalidCityException {
+    private float[] getLocInfo(String  name) throws IOException {
         float[] data=new float[2];
         String APIid="eeba41d7d3d95a8dad6d4c3ae375f602";
-        final ObjectNode node=new ObjectMapper().readValue(new URL("http://api.openweathermap.org/data/2.5/weather?q="+name+"&APPID="+APIid+""),ObjectNode.class);
+        ObjectNode node=new ObjectMapper().readValue(new URL("http://api.openweathermap.org/data/2.5/weather?q="+name+"&APPID="+APIid),ObjectNode.class);
         JsonNode coords=node.get("coord");
         data[0]=Float.parseFloat(coords.get("lon").asText());
         data[1]=Float.parseFloat(coords.get("lat").asText());
-        if(node.asText().contains("404")){
-            throw new InvalidCityException(name);
-        }
         return data;
         }
 
-    private int[] getTerms(String name) throws IOException, InvalidCityException, InvalidInputException {
+    private int[] getTerms(String name) throws IOException, InvalidInputException {
         int[] terms_temp=new int[10];
         String nameFinal;
         String [] term_names={"museum","history","car","bike","food","mountain","cafe","shopping","sea","nightlife"};
@@ -103,9 +94,6 @@ public class City {
             throw new InvalidInputException(name);
         }
         final ObjectNode node=new ObjectMapper().readValue(new URL("https://en.wikipedia.org/w/api.php?action=query&prop=extracts&titles="+nameFinal+"&format=json&formatversion=2"),ObjectNode.class);
-        if(node.asText().contains("\"missing\": true")){
-            throw new InvalidCityException(name);
-        }
         JsonNode jsonPages=node.get("query").get("pages");
         for (int i = 0; i < terms_temp.length; i++) {
             terms_temp[i]=CountWords.countCriterionfCity(jsonPages.toString(),term_names[i]);

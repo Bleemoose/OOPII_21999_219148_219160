@@ -3,7 +3,10 @@ package OOPII_21999_219148_219160;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
+import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 
+import javax.xml.validation.Validator;
 import java.io.*;
 import java.nio.file.Files;
 import java.util.*;
@@ -31,7 +34,8 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-        mapper.enableDefaultTyping(); //deprecated
+        mapper.enableDefaultTyping(); //Deprecated,but functional
+        boolean run=true;
         int input,age;
         String name,cityName = null;
         boolean flag;
@@ -45,12 +49,13 @@ public class Main {
         Scanner scanner  = new Scanner(System.in);
         HashMap<String,City> cityMap = new HashMap<>();
 
-       while (true){
+       while (run){
            try{
-               System.out.println("Main Menu:\n1.New Traveller \n2.Save traveller list");
+               System.out.println("Main Menu:\n1.New traveller \n2.Save data and exit");
                input = scanner.nextInt();
                scanner.nextLine();
-               if (input == 1){
+               switch (input){
+                   case 1:
                    String [] term_names={"museum","history","car","bike","food","mountain","cafe","shopping","sea","nightlife"};
                    int [] traveller_terms= new int[term_names.length];
                    flag = false;
@@ -77,28 +82,36 @@ public class Main {
                            scanner.nextLine();
                        }while(traveller_terms[i]<1 || traveller_terms[i] >10);
                    }
-                   if(age>60 && age<=115){
-                       travellerList.add(new ElderTraveller(traveller_terms,cityMap.get(cityName).getGeodesic_vector(),name));
+                   try {
+                       if (age > 60 && age <= 115) {
+                           travellerList.add(new ElderTraveller(traveller_terms, cityMap.get(cityName).getGeodesic_vector(), name));
+                       }
+                       if (age > 25 && age <= 60) {
+                           travellerList.add(new MiddleTraveller(traveller_terms, cityMap.get(cityName).getGeodesic_vector(), name));
+                       }
+                       if (age >= 16 && age <= 25) {
+                           travellerList.add(new YoungTraveler(traveller_terms, cityMap.get(cityName).getGeodesic_vector(), name));
+                       } else {
+                           throw new InvalidAgeException(String.valueOf(age));
+                       }
+                   }catch (InvalidAgeException e){
+                       System.out.println("Age: "+age+" is invalid,please specify an age between 16 and 115,traveller will not be saved!");
                    }
-                   if(age>25 && age<=60){
-                       travellerList.add(new MiddleTraveller(traveller_terms,cityMap.get(cityName).getGeodesic_vector(),name));
-                   }
-                   if(age>=16 && age<=25){
-                       travellerList.add(new YoungTraveler(traveller_terms,cityMap.get(cityName).getGeodesic_vector(),name));
-                   }
+                   break;
 
-               }
-               if(input==2){
+                   case 2:
                    Clients cl_temp=new Clients();
                    cl_temp.setTravellers(travellerList);
                    String jsonDataString = mapper.writeValueAsString(cl_temp);
                    BufferedWriter writer = new BufferedWriter(new FileWriter("travellers.json"));
                    writer.write(jsonDataString);
                    writer.close();
+                   run=false;
+                   break;
                }
 
            }catch (Exception e){
-
+               e.printStackTrace();
            }
        }
     }

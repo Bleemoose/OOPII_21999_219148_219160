@@ -14,7 +14,11 @@ class ArrayListException extends Exception{
     }
 }
 
-
+class InvalidAgeException extends Exception{
+    InvalidAgeException(String s){
+        super(s);
+    }
+}
 abstract class Traveller implements Comparable<Traveller>{
     private int[] termsRating;
     private float[] currentLocation;
@@ -133,8 +137,8 @@ abstract class Traveller implements Comparable<Traveller>{
     }
 
     public City compare_cities(ArrayList<City> cityArrayList) throws ArrayListException {
-        double max = -1f;
-        int loc = 0;
+        double max;
+        int loc;
 
         if (cityArrayList.size() == 0){
             throw new ArrayListException("Empty ArrayList");
