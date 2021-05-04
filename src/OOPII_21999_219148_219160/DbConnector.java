@@ -72,12 +72,12 @@ public class DbConnector {
        {
            Map.Entry<String, City> entry = it.next();
             Statement stmt = connection.createStatement();
-            ResultSet result = null;
+            ResultSet result;
             result = stmt.executeQuery("select count(*) AS FOUNDAT from CITIES_OOPII where NAME="+"'"+entry.getValue().getName()+"'");
             result.next();
             if(result.getInt("FOUNDAT")==0) {
                 String insStr = "INSERT INTO CITIES_OOPII VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                PreparedStatement insertionStmt = connection.prepareStatement(insStr.toString());
+                PreparedStatement insertionStmt = connection.prepareStatement(insStr);
                 insertionStmt.setString(1,entry.getValue().getName());
                 insertionStmt.setFloat(2,entry.getValue().getGeodesic_vector()[1]);
                 insertionStmt.setFloat(3,entry.getValue().getGeodesic_vector()[0]);
@@ -90,7 +90,7 @@ public class DbConnector {
    }
 
    public static HashMap<String,City> LoadFromDB() throws SQLException, InvalidInputException, IOException {
-       HashMap<String,City> temp_map=new HashMap<String,City>();
+       HashMap<String,City> temp_map= new HashMap<>();
        Statement stmt=connection.createStatement();
        String sql="SELECT * FROM CITIES_OOPII";
        ResultSet rs=stmt.executeQuery(sql);
