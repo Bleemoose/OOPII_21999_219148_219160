@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class DbConnector {
     static Connection connection;
-    static String tablename = "MY_CITIES_OOPII";
+    static String tablename = "CITIES_OOPII";
 
 
 
@@ -73,10 +73,10 @@ public class DbConnector {
            Map.Entry<String, City> entry = it.next();
             Statement stmt = connection.createStatement();
             ResultSet result = null;
-            result = stmt.executeQuery("select count(*) AS FOUNDAT from " +tablename + " where NAME="+"'"+entry.getValue().getName()+"'");
+            result = stmt.executeQuery("select count(*) AS FOUNDAT from CITIES_OOPII where NAME="+"'"+entry.getValue().getName()+"'");
             result.next();
             if(result.getInt("FOUNDAT")==0) {
-                String insStr = "INSERT INTO "+ tablename + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                String insStr = "INSERT INTO CITIES_OOPII VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
                 PreparedStatement insertionStmt = connection.prepareStatement(insStr.toString());
                 insertionStmt.setString(1,entry.getValue().getName());
                 insertionStmt.setFloat(2,entry.getValue().getGeodesic_vector()[1]);
@@ -92,7 +92,7 @@ public class DbConnector {
    public static HashMap<String,City> LoadFromDB() throws SQLException, InvalidInputException, IOException {
        HashMap<String,City> temp_map=new HashMap<String,City>();
        Statement stmt=connection.createStatement();
-       String sql="SELECT * FROM " + tablename;
+       String sql="SELECT * FROM CITIES_OOPII";
        ResultSet rs=stmt.executeQuery(sql);
        while (rs.next()) {
            String Name=rs.getString("NAME");
