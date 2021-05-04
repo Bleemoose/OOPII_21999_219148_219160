@@ -3,12 +3,9 @@ package OOPII_21999_219148_219160;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
-import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
-
-import javax.xml.validation.Validator;
 import java.io.*;
 import java.nio.file.Files;
+import java.sql.SQLException;
 import java.util.*;
 
 /*
@@ -32,7 +29,8 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException, InvalidInputException {
+        new DbConnector();
         ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
         mapper.enableDefaultTyping(); //Deprecated,but functional
         boolean run=true;
@@ -47,7 +45,7 @@ public class Main {
             travellerList= (ArrayList<Traveller>) cl_temp.getTravellers();
         }
         Scanner scanner  = new Scanner(System.in);
-        HashMap<String,City> cityMap = new HashMap<>();
+        HashMap<String,City> cityMap =DbConnector.LoadFromDB();
 
        while (run){
            try{
@@ -86,10 +84,10 @@ public class Main {
                        if (age > 60 && age <= 115) {
                            travellerList.add(new ElderTraveller(traveller_terms, cityMap.get(cityName).getGeodesic_vector(), name));
                        }
-                       if (age > 25 && age <= 60) {
+                       else if (age > 25 && age <= 60) {
                            travellerList.add(new MiddleTraveller(traveller_terms, cityMap.get(cityName).getGeodesic_vector(), name));
                        }
-                       if (age >= 16 && age <= 25) {
+                       else if (age >= 16 && age <= 25) {
                            travellerList.add(new YoungTraveler(traveller_terms, cityMap.get(cityName).getGeodesic_vector(), name));
                        } else {
                            throw new InvalidAgeException(String.valueOf(age));
@@ -106,6 +104,7 @@ public class Main {
                    BufferedWriter writer = new BufferedWriter(new FileWriter("travellers.json"));
                    writer.write(jsonDataString);
                    writer.close();
+                   DbConnector.SaveToDB(cityMap);
                    run=false;
                    break;
                }

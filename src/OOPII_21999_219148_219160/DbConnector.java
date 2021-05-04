@@ -71,11 +71,11 @@ public class DbConnector {
         stmt.executeUpdate(sql);
     }
 
-    public static void SaveToDB(HashMap<String, City> cityMap) throws SQLException {
-        Iterator<Map.Entry<String, City>> it = cityMap.entrySet().iterator();
-        while(it.hasNext())
-        {
-            Map.Entry<String, City> entry = it.next();
+   public static void SaveToDB(HashMap<String, City> cityMap) throws SQLException {
+       Iterator<Map.Entry<String, City>> it = cityMap.entrySet().iterator();
+       while(it.hasNext())
+       {
+           Map.Entry<String, City> entry = it.next();
             Statement stmt = connection.createStatement();
             ResultSet result = null;
             result = stmt.executeQuery("select count(*) AS FOUNDAT from CITIES_OOPII where NAME="+"'"+entry.getValue().getName()+"'");
@@ -92,33 +92,33 @@ public class DbConnector {
                 insertionStmt.executeUpdate();
             }
         }
-    }
+   }
 
-    public static HashMap<String,City> LoadFromDB() throws SQLException, InvalidInputException, IOException {
-        HashMap<String,City> temp_map=new HashMap<String,City>();
-        Statement stmt=connection.createStatement();
-        String sql="SELECT * FROM CITIES_OOPII";
-        ResultSet rs=stmt.executeQuery(sql);
-        while (rs.next()) {
-            String Name=rs.getString("NAME");
-            float  Latitude=rs.getFloat("LAT");
-            float  Longitude=rs.getFloat("LON");
-            int    attr1=rs.getInt("ATTR1");
-            int    attr2=rs.getInt("ATTR2");
-            int    attr3=rs.getInt("ATTR3");
-            int    attr4=rs.getInt("ATTR4");
-            int    attr5=rs.getInt("ATTR5");
-            int    attr6=rs.getInt("ATTR6");
-            int    attr7=rs.getInt("ATTR7");
-            int    attr8=rs.getInt("ATTR8");
-            int    attr9=rs.getInt("ATTR9");
-            int    attr10=rs.getInt("ATTR10");
-            System.out.println(Name+Latitude+Longitude);
-            float[] temp_coord={Longitude,Latitude};
-            int[] temp_attr={attr1,attr2,attr3,attr4,attr5,attr6,attr7,attr8,attr9,attr10};
-            temp_map.put(Name,new City(Name,temp_coord,temp_attr));
-        }
-        return temp_map;
-    }
+   public static HashMap<String,City> LoadFromDB() throws SQLException, InvalidInputException, IOException {
+       HashMap<String,City> temp_map=new HashMap<String,City>();
+       Statement stmt=connection.createStatement();
+       String sql="SELECT * FROM CITIES_OOPII";
+       ResultSet rs=stmt.executeQuery(sql);
+       while (rs.next()) {
+           String Name=rs.getString("NAME");
+           float  Latitude=rs.getFloat("LAT");
+           float  Longitude=rs.getFloat("LON");
+           int    attr1=rs.getInt("ATTR1");
+           int    attr2=rs.getInt("ATTR2");
+           int    attr3=rs.getInt("ATTR3");
+           int    attr4=rs.getInt("ATTR4");
+           int    attr5=rs.getInt("ATTR5");
+           int    attr6=rs.getInt("ATTR6");
+           int    attr7=rs.getInt("ATTR7");
+           int    attr8=rs.getInt("ATTR8");
+           int    attr9=rs.getInt("ATTR9");
+           int    attr10=rs.getInt("ATTR10");
+           System.out.println(Name+Latitude+Longitude);
+           float[] temp_coord={Longitude,Latitude};
+           int[] temp_attr={attr1,attr2,attr3,attr4,attr5,attr6,attr7,attr8,attr9,attr10};
+           temp_map.put(Name,new City(Name,temp_coord,temp_attr));
+       }
+       return temp_map;
+   }
 
 }

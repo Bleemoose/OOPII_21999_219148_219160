@@ -44,7 +44,12 @@ public class City {
         terms_vector = getTerms(name);
 
     }
+    public City(String name,float[] geodesic_vector,int[] terms_vector) throws IOException, InvalidInputException {
+        this.name=name;
+        this.geodesic_vector=geodesic_vector;
+        this.terms_vector=terms_vector;
 
+    }
    //setters and getters
 
 
