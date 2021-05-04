@@ -9,21 +9,16 @@ import java.util.Scanner;
 
 public class DbConnector {
     static Connection connection;
+    static String tablename = "MY_CITIES_OOPII";
 
-    static {
-        try {
-            connection = DbLogin();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
+
 
     public DbConnector() throws SQLException, ClassNotFoundException {
-        String tablename="CITIES_OOPII";
-        if(!tableExists(connection,tablename)){
-            CreateTable(connection,tablename);
+
+        connection = DbLogin();
+
+        if(!tableExists(connection)){
+            CreateTable(connection);
         }
     }
 
@@ -39,19 +34,19 @@ public class DbConnector {
         return con;
     }
 
-    private static boolean tableExists(Connection connection, String tableName) throws SQLException {
+    private static boolean tableExists(Connection connection) throws SQLException {
         boolean exists=false;
         DatabaseMetaData meta = connection.getMetaData();
-        ResultSet res = meta.getTables(null, null, tableName,
+        ResultSet res = meta.getTables(null, null, tablename,
                 new String[] {"TABLE"});
         while (res.next()) {
             String name=res.getString("TABLE_NAME");
-            exists=name.contains(tableName);
+            exists=name.contains(tablename);
         }
         return exists;
     }
 
-    private static void CreateTable(Connection con,String tablename) throws SQLException {
+    private static void CreateTable(Connection con) throws SQLException {
         String sql = "CREATE TABLE "+tablename+" (" +
                 "NAME varchar(128)," +
                 "LAT   float," +
@@ -78,10 +73,10 @@ public class DbConnector {
            Map.Entry<String, City> entry = it.next();
             Statement stmt = connection.createStatement();
             ResultSet result = null;
-            result = stmt.executeQuery("select count(*) AS FOUNDAT from CITIES_OOPII where NAME="+"'"+entry.getValue().getName()+"'");
+            result = stmt.executeQuery("select count(*) AS FOUNDAT from " +tablename + " where NAME="+"'"+entry.getValue().getName()+"'");
             result.next();
             if(result.getInt("FOUNDAT")==0) {
-                String insStr = "INSERT INTO CITIES_OOPII VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                String insStr = "INSERT INTO "+ tablename + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
                 PreparedStatement insertionStmt = connection.prepareStatement(insStr.toString());
                 insertionStmt.setString(1,entry.getValue().getName());
                 insertionStmt.setFloat(2,entry.getValue().getGeodesic_vector()[1]);
@@ -97,7 +92,7 @@ public class DbConnector {
    public static HashMap<String,City> LoadFromDB() throws SQLException, InvalidInputException, IOException {
        HashMap<String,City> temp_map=new HashMap<String,City>();
        Statement stmt=connection.createStatement();
-       String sql="SELECT * FROM CITIES_OOPII";
+       String sql="SELECT * FROM " + tablename;
        ResultSet rs=stmt.executeQuery(sql);
        while (rs.next()) {
            String Name=rs.getString("NAME");
