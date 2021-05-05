@@ -14,7 +14,7 @@ WHEN CREATING A CITY IT SHOULD BE ALWAYS FOLLOWED BY A COMMA AND THE TWO LETTER 
 
 public class Main {
 
-
+    //adds a city into the HashMap and handles the errors (returns true if city was added successfully)
     public static boolean addNewCity(HashMap<String, City> cityMap, String newCityName) {
         try {
             City newCity = new City(newCityName);
@@ -30,23 +30,33 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException, InvalidInputException {
+
+        //establish connection if failed program stops
         new DbConnector();
+
+
         ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
         mapper.enableDefaultTyping(); //Deprecated,but functional
         boolean run=true;
         int input,age;
         String name,cityName = null;
         boolean flag;
+        Scanner scanner  = new Scanner(System.in);
+
+        //create json file
         File f=new File("travellers.json");
         ArrayList<Traveller> travellerList=new ArrayList<>();
+        //load from json the travellers
         if(f.exists()){
             String deserializedJsonString= Files.readString(f.toPath());
             Clients cl_temp=mapper.readValue(deserializedJsonString,Clients.class);
             travellerList= (ArrayList<Traveller>) cl_temp.getTravellers();
         }
-        Scanner scanner  = new Scanner(System.in);
+        //load from db the cities
         HashMap<String,City> cityMap =DbConnector.LoadFromDB();
 
+
+        //start of menu
        while (run){
            try{
                System.out.println("Main Menu:\n1.New traveller \n2.Save data and exit");

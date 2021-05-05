@@ -8,7 +8,15 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class DbConnector {
+
+    /*
+    todo: find a way to access another user's table and store all the data there
+     */
+
+
     static Connection connection;
+
+    //Name of the table that data will be stored
     static String tablename = "CITIES_OOPII";
 
 
