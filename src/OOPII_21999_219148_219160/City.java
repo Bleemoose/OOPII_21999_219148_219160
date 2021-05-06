@@ -37,13 +37,14 @@ public class City {
     private int[] terms_vector;
     private float[] geodesic_vector;
 
-    //constructor
+    //constructor that uses the API to find the city
     public City(String name) throws IOException, InvalidInputException {
         this.name=name;
         geodesic_vector = getLocInfo(name);
         terms_vector = getTerms(name);
 
     }
+    //constructor used when loading from DB tha manually adds the city info
     public City(String name,float[] geodesic_vector,int[] terms_vector) throws IOException, InvalidInputException {
         this.name=name;
         this.geodesic_vector=geodesic_vector;
@@ -91,6 +92,7 @@ public class City {
     private int[] getTerms(String name) throws IOException, InvalidInputException {
         int[] terms_temp=new int[10];
         String nameFinal;
+        //look for these words
         String [] term_names={"museum","history","car","bike","food","mountain","cafe","shopping","sea","nightlife"};
         if(name.lastIndexOf(",")!=-1){
             nameFinal = name.substring( 0, name.indexOf(",")); //removes comma from search

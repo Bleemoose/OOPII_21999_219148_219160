@@ -116,10 +116,10 @@ public class DbConnector {
            int    attr8=rs.getInt("ATTR8");
            int    attr9=rs.getInt("ATTR9");
            int    attr10=rs.getInt("ATTR10");
-           System.out.println(Name+Latitude+Longitude);
            float[] temp_coord={Longitude,Latitude};
            int[] temp_attr={attr1,attr2,attr3,attr4,attr5,attr6,attr7,attr8,attr9,attr10};
            temp_map.put(Name,new City(Name,temp_coord,temp_attr));
+           System.out.println("Loaded:" + Name + " from DB");
        }
        return temp_map;
    }
