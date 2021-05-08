@@ -33,10 +33,8 @@ public class DbConnector {
     private static Connection  DbLogin() throws ClassNotFoundException, SQLException {
         Scanner myScn=new Scanner(System.in);
         Class.forName("oracle.jdbc.driver.OracleDriver");
-        System.out.println("Enter Oracle DB Username");
-        String username=myScn.nextLine();
-        System.out.println("Enter Oracle DB Password");
-        String password=myScn.nextLine();
+        String username="IT219148";
+        String password="(PV=9<vjAtV}*6n-";
         Connection con= DriverManager.getConnection("jdbc:oracle:thin:@oracle12c.hua.gr:1521:orcl",username,password);
         System.out.println("Connected to DB");
         return con;
