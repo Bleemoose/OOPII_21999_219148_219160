@@ -35,7 +35,7 @@ public class Main {
         new DbConnector();
 
 
-        ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+        ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT); //initialize jackson mapper
         mapper.enableDefaultTyping(); //Deprecated,but functional
         boolean run=true;
         int input,age;
@@ -46,13 +46,12 @@ public class Main {
         //create json file
         File f=new File("travellers.json");
         ArrayList<Traveller> travellerList=new ArrayList<>();
-        //load from json the travellers
-        if(f.exists()){
+        if(f.exists()){ //try to load travellers only if json file exists
             String deserializedJsonString= Files.readString(f.toPath());
-            Clients cl_temp=mapper.readValue(deserializedJsonString,Clients.class);
+            Clients cl_temp=mapper.readValue(deserializedJsonString,Clients.class); //deserialize from template class clients
             travellerList= (ArrayList<Traveller>) cl_temp.getTravellers();
         }
-        //load from db the cities
+        //load the cities from db
         HashMap<String,City> cityMap =DbConnector.LoadFromDB();
 
 
@@ -63,7 +62,7 @@ public class Main {
                input = scanner.nextInt();
                scanner.nextLine();
                switch (input){
-                   case 1:
+                   case 1: //traveller creation portion
                    String [] term_names={"museum","history","car","bike","food","mountain","cafe","shopping","sea","nightlife"};
                    int [] traveller_terms= new int[term_names.length];
                    flag = false;
@@ -90,7 +89,7 @@ public class Main {
                            scanner.nextLine();
                        }while(traveller_terms[i]<1 || traveller_terms[i] >10);
                    }
-                   try {
+                   try { //create object based on age
                        if (age > 60 && age <= 115) {
                            travellerList.add(new ElderTraveller(traveller_terms, cityMap.get(cityName).getGeodesic_vector(), name));
                        }
@@ -107,14 +106,14 @@ public class Main {
                    }
                    break;
 
-                   case 2:
-                   Clients cl_temp=new Clients();
+                   case 2: //save and exit portion
+                   Clients cl_temp=new Clients(); //make new template class for json serialization
                    cl_temp.setTravellers(travellerList);
-                   String jsonDataString = mapper.writeValueAsString(cl_temp);
+                   String jsonDataString = mapper.writeValueAsString(cl_temp); //create json string
                    BufferedWriter writer = new BufferedWriter(new FileWriter("travellers.json"));
-                   writer.write(jsonDataString);
+                   writer.write(jsonDataString);//write string to file
                    writer.close();
-                   DbConnector.SaveToDB(cityMap);
+                   DbConnector.SaveToDB(cityMap); //save new cities to db
                    run=false;
                    break;
                }

@@ -5,14 +5,8 @@ import java.sql.*;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Scanner;
 
 public class DbConnector {
-
-    /*
-    todo: find a way to access another user's table and store all the data there
-     */
-
 
     static Connection connection;
 
@@ -22,38 +16,37 @@ public class DbConnector {
 
 
     public DbConnector() throws SQLException, ClassNotFoundException {
-
+         //log in to database
         connection = DbLogin();
 
-        if(!tableExists(connection)){
-            CreateTable(connection);
+        if(!tableExists(connection)){ //check if table exists
+            CreateTable(connection); //if not,create it
         }
     }
 
     private static Connection  DbLogin() throws ClassNotFoundException, SQLException {
-        Scanner myScn=new Scanner(System.in);
         Class.forName("oracle.jdbc.driver.OracleDriver");
         String username="IT219148";
-        String password="(PV=9<vjAtV}*6n-";
-        Connection con= DriverManager.getConnection("jdbc:oracle:thin:@oracle12c.hua.gr:1521:orcl",username,password);
+        String password="(PV=9<vjAtV}*6n-"; //predefined credentials
+        Connection con= DriverManager.getConnection("jdbc:oracle:thin:@oracle12c.hua.gr:1521:orcl",username,password); //initiate connection
         System.out.println("Connected to DB");
-        return con;
+        return con; //return the connection object
     }
 
     private static boolean tableExists(Connection connection) throws SQLException {
         boolean exists=false;
         DatabaseMetaData meta = connection.getMetaData();
         ResultSet res = meta.getTables(null, null, tablename,
-                new String[] {"TABLE"});
+                new String[] {"TABLE"}); //acquire database metadata
         while (res.next()) {
-            String name=res.getString("TABLE_NAME");
+            String name=res.getString("TABLE_NAME"); //check for table name existence in all tables
             exists=name.contains(tablename);
         }
-        return exists;
+        return exists; //return true if table exists
     }
 
     private static void CreateTable(Connection con) throws SQLException {
-        String sql = "CREATE TABLE "+tablename+" (" +
+        String sql = "CREATE TABLE "+tablename+" (" + //sql commands for table creation
                 "NAME varchar(128)," +
                 "LAT   float," +
                 "LON   float," +
@@ -69,36 +62,36 @@ public class DbConnector {
                 "ATTR10  number(5)" +
                 ")";
         Statement stmt=con.createStatement();
-        stmt.executeUpdate(sql);
+        stmt.executeUpdate(sql); //execute query
     }
 
    public static void SaveToDB(HashMap<String, City> cityMap) throws SQLException {
-       Iterator<Map.Entry<String, City>> it = cityMap.entrySet().iterator();
+       Iterator<Map.Entry<String, City>> it = cityMap.entrySet().iterator(); //iterator for the city hashmap
        while(it.hasNext())
        {
-           Map.Entry<String, City> entry = it.next();
+           Map.Entry<String, City> entry = it.next(); //move to next element
             Statement stmt = connection.createStatement();
             ResultSet result;
-            result = stmt.executeQuery("select count(*) AS FOUNDAT from CITIES_OOPII where NAME="+"'"+entry.getValue().getName()+"'");
+            result = stmt.executeQuery("select count(*) AS FOUNDAT from CITIES_OOPII where NAME="+"'"+entry.getValue().getName()+"'"); //sql query to see if city already in database
             result.next();
-            if(result.getInt("FOUNDAT")==0) {
+            if(result.getInt("FOUNDAT")==0) { //only executes if city not in db
                 String insStr = "INSERT INTO CITIES_OOPII VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
                 PreparedStatement insertionStmt = connection.prepareStatement(insStr);
                 insertionStmt.setString(1,entry.getValue().getName());
                 insertionStmt.setFloat(2,entry.getValue().getGeodesic_vector()[1]);
                 insertionStmt.setFloat(3,entry.getValue().getGeodesic_vector()[0]);
                 for (int j = 0; j <10; j++) {
-                    insertionStmt.setInt(j+4,entry.getValue().getTerms_vector()[j]);
+                    insertionStmt.setInt(j+4,entry.getValue().getTerms_vector()[j]); //term insertion
                 }
-                insertionStmt.executeUpdate();
+                insertionStmt.executeUpdate(); //finish insert
             }
         }
    }
 
    public static HashMap<String,City> LoadFromDB() throws SQLException, InvalidInputException, IOException {
-       HashMap<String,City> temp_map= new HashMap<>();
+       HashMap<String,City> temp_map= new HashMap<>(); //temp hashmap
        Statement stmt=connection.createStatement();
-       String sql="SELECT * FROM CITIES_OOPII";
+       String sql="SELECT * FROM CITIES_OOPII"; //get row
        ResultSet rs=stmt.executeQuery(sql);
        while (rs.next()) {
            String Name=rs.getString("NAME");
@@ -116,7 +109,7 @@ public class DbConnector {
            int    attr10=rs.getInt("ATTR10");
            float[] temp_coord={Longitude,Latitude};
            int[] temp_attr={attr1,attr2,attr3,attr4,attr5,attr6,attr7,attr8,attr9,attr10};
-           temp_map.put(Name,new City(Name,temp_coord,temp_attr));
+           temp_map.put(Name,new City(Name,temp_coord,temp_attr)); //put loaded city in map
            System.out.println("Loaded:" + Name + " from DB");
        }
        return temp_map;
