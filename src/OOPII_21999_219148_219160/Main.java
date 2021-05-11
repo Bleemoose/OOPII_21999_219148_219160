@@ -58,7 +58,7 @@ public class Main {
         //start of menu
        while (run){
            try{
-               System.out.println("Main Menu:\n1.New traveller \n2.Save data and exit");
+               System.out.println("Main Menu:\n1.New traveller \n2.Print loaded travellers\n3.Save data and exit");
                input = scanner.nextInt();
                scanner.nextLine();
                switch (input){
@@ -85,8 +85,7 @@ public class Main {
                    for(int i=0; i<term_names.length;i++){
                        do {
                            System.out.println(term_names[i]);
-                           traveller_terms[i] = scanner.nextInt();
-                           scanner.nextLine();
+                           traveller_terms[i] = Integer.parseInt(scanner.nextLine());
                        }while(traveller_terms[i]<1 || traveller_terms[i] >10);
                    }
                    try { //create object based on age
@@ -106,7 +105,15 @@ public class Main {
                    }
                    break;
 
-                   case 2: //save and exit portion
+                   case 2:
+                       for(int i = 0 ; i < travellerList.size();i++){
+                           System.out.println(travellerList.get(i).getFullName());
+                       }
+
+
+                       break;
+
+                   case 3: //save and exit portion
                    Clients cl_temp=new Clients(); //make new template class for json serialization
                    cl_temp.setTravellers(travellerList);
                    String jsonDataString = mapper.writeValueAsString(cl_temp); //create json string
