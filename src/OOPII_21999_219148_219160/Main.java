@@ -16,6 +16,7 @@ public class Main {
 
     //adds a city into the HashMap and handles the errors (returns true if city was added successfully)
     public static boolean addNewCity(HashMap<String, City> cityMap, String newCityName) {
+        System.out.println("Please wait,retrieving city information...");
         try {
             City newCity = new City(newCityName);
             cityMap.put(newCity.getName(), newCity);
@@ -58,7 +59,7 @@ public class Main {
         //start of menu
        while (run){
            try{
-               System.out.println("Main Menu:\n1.New traveller \n2.Print loaded travellers\n3.Save data and exit");
+               System.out.println("Main Menu:\n1.New traveller \n2.Print loaded travellers\n3.Add new City\n4.Save data and exit");
                input = scanner.nextInt();
                scanner.nextLine();
                switch (input){
@@ -75,7 +76,6 @@ public class Main {
                        System.out.println("Give current city");
                        cityName = scanner.nextLine();
                        if (!cityMap.containsKey(cityName)) {
-                           System.out.println("Please wait,retrieving city information....");
                         flag =  addNewCity(cityMap,cityName);
                        }else{
                            flag = true;
@@ -107,13 +107,26 @@ public class Main {
 
                    case 2:
                        for(int i = 0 ; i < travellerList.size();i++){
-                           System.out.println(travellerList.get(i).getFullName());
+                           System.out.println(travellerList.get(i).getFullName()+" "+Arrays.toString(travellerList.get(i).getCurrentLocation()));
                        }
 
 
                        break;
 
-                   case 3: //save and exit portion
+
+                   case 3: //Add new city portion
+                       System.out.println("Type in the city name you want to add");
+                       cityName=scanner.nextLine();
+                       if (!cityMap.containsKey(cityName)) {
+                           addNewCity(cityMap,cityName);
+                       }
+                       else {
+                           System.out.println("City already exists!");
+                       }
+                       break;
+
+
+                       case 4: //save and exit portion
                    Clients cl_temp=new Clients(); //make new template class for json serialization
                    cl_temp.setTravellers(travellerList);
                    String jsonDataString = mapper.writeValueAsString(cl_temp); //create json string
