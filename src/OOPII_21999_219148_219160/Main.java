@@ -19,9 +19,9 @@ public class Main {
         //col 0 for name col 1 similarity
         int i = 0;
         String[][] tmp = new String[cityMap.size()][2];
-        Iterator<Map.Entry<String, City>> it = cityMap.entrySet().iterator(); //iterator for the city hashmap
-        while(it.hasNext()){
-            Map.Entry<String, City> entry = it.next(); //move to next element
+        //iterator for the city hashmap
+        //move to next element
+        for (Map.Entry<String, City> entry : cityMap.entrySet()) {
             tmp[i][0] = entry.getValue().getName();
             tmp[i][1] = String.valueOf(traveller.calculate_similarity(entry.getValue()));
             i++;
@@ -132,7 +132,7 @@ public class Main {
                         break;
 
                     case 3:
-                        int indx = 0;
+                        int indx;
                         do {
                             System.out.println("Give index of the traveller");
                             indx = Integer.parseInt(scanner.nextLine());

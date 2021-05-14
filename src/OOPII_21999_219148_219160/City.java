@@ -92,9 +92,12 @@ public class City {
     private int[] getTerms(String name) throws IOException, InvalidInputException {
         int[] terms_temp=new int[10];
         String nameFinal;
+        String[] parts = new String[2];
         //look for these words
         String [] term_names={"museum","history","car","bike","food","mountain","cafe","shopping","sea","nightlife"};
-        if(name.lastIndexOf(",")!=-1){
+        parts= name.split("(?=,)");
+        String afterComma = parts[1];
+        if(name.lastIndexOf(",")!=-1 && afterComma.length()==3){
             nameFinal = name.substring( 0, name.indexOf(",")); //removes comma from search
         }
         else{
