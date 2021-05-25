@@ -55,7 +55,10 @@ public class DataBaseConnectionError extends JDialog {
     public static void main(String[] args) {
         DataBaseConnectionError dialog = new DataBaseConnectionError();
         dialog.setTitle("CONNECTION ERROR");
-        dialog.setLocationRelativeTo(null);
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (int) ((dimension.getWidth() - dialog.getWidth()) / 2);
+        int y = (int) ((dimension.getHeight() - dialog.getHeight()) / 2);
+        dialog.setLocation(x, y);
         dialog.pack();
         dialog.setVisible(true);
     }
