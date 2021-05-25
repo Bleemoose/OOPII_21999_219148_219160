@@ -11,7 +11,7 @@ public class ShowTravellerWindow {
     private JTable table1;
     private JPanel panel1;
     private JButton OKButton;
-    static JFrame frame = new JFrame("ShowTravellerWindow");
+    static JFrame frame = new JFrame("Travellers");
 
     class MyTableModel extends AbstractTableModel {
 

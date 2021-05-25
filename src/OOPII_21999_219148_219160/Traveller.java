@@ -34,7 +34,6 @@ public abstract class Traveller implements Comparable<Traveller>{
         this.termsRating = termsRating;
         this.currentLocation = currentLocation;
         this.fullName = fullName;
-        this.timestamp=new Date();
     }
 
     public Traveller() {
