@@ -9,6 +9,10 @@ import java.sql.SQLException;
 public class App {
     private JButton button1;
     private JPanel App;
+    private JButton button2;
+    private JButton button3;
+    private JButton button4;
+    private JButton button5;
 
 
     public App() {
