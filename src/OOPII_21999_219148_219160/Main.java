@@ -15,6 +15,7 @@ WHEN CREATING A CITY IT SHOULD BE ALWAYS FOLLOWED BY A COMMA AND THE TWO LETTER 
 
 public class Main {
 
+
     public static City recommendCity(Traveller traveller,HashMap<String, City> cityMap){
         //col 0 for name col 1 similarity
         int i = 0;
@@ -31,19 +32,11 @@ public class Main {
     }
 
     //adds a city into the HashMap and handles the errors (returns true if city was added successfully)
-    public static boolean addNewCity(HashMap<String, City> cityMap, String newCityName) {
+    public static boolean addNewCity(HashMap<String, City> cityMap, String newCityName) throws InvalidInputException, IOException {
         System.out.println("Please wait,retrieving city information...");
-        try {
             City newCity = new City(newCityName);
             cityMap.put(newCity.getName(), newCity);
             return true;
-        } catch (InvalidInputException e) {
-            System.out.println("Input: " + newCityName + " is invalid,please add a comma and the countries two letter code");
-            return false;
-        } catch (IOException e) {
-            System.out.println("City: " + newCityName + " Not found");
-            return false;
-        }
     }
 
     public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException, InvalidInputException {

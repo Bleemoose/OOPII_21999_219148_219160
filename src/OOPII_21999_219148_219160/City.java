@@ -96,7 +96,11 @@ public class City {
         //look for these words
         String [] term_names={"museum","history","car","bike","food","mountain","cafe","shopping","sea","nightlife"};
         parts= name.split("(?=,)");
-        String afterComma = parts[1];
+        String afterComma = "";
+        if(parts.length==2) {
+            afterComma = parts[1];
+        }
+
         if(name.lastIndexOf(",")!=-1 && afterComma.length()==3){
             nameFinal = name.substring( 0, name.indexOf(",")); //removes comma from search
         }
