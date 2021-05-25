@@ -1,6 +1,7 @@
 package OOPII_21999_219148_219160;
 
 import javax.swing.*;
+import javax.xml.crypto.Data;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -39,6 +40,7 @@ public class App {
 
             } catch (SQLException throwables) {
                 DataBaseConnectionError.main(null);
+
 
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();

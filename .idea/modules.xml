@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/OOPII_21999_219148_219160.iml" filepath="$PROJECT_DIR$/OOPII_21999_219148_219160.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UIElements/UIElements.iml" filepath="$PROJECT_DIR$/UIElements/UIElements.iml" />
     </modules>
   </component>
 </project>

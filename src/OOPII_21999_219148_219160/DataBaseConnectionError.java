@@ -8,8 +8,10 @@ public class DataBaseConnectionError extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
+    private  JLabel ErrIconLabel;
 
     public DataBaseConnectionError() {
+        ErrIconLabel.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -53,6 +55,7 @@ public class DataBaseConnectionError extends JDialog {
     public static void main(String[] args) {
         DataBaseConnectionError dialog = new DataBaseConnectionError();
         dialog.setTitle("CONNECTION ERROR");
+        dialog.setLocationRelativeTo(null);
         dialog.pack();
         dialog.setVisible(true);
     }
