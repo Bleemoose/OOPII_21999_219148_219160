@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -19,7 +20,7 @@ class InvalidAgeException extends Exception{
         super(s);
     }
 }
-abstract class Traveller implements Comparable<Traveller>{
+public abstract class Traveller implements Comparable<Traveller>{
     private int[] termsRating;
     private float[] currentLocation;
     private float p;
@@ -33,6 +34,7 @@ abstract class Traveller implements Comparable<Traveller>{
         this.termsRating = termsRating;
         this.currentLocation = currentLocation;
         this.fullName = fullName;
+        this.timestamp=new Date();
     }
 
     public Traveller() {

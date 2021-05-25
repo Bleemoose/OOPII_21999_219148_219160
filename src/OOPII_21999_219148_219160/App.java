@@ -31,15 +31,15 @@ public class App {
     static ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT); //initialize jackson mapper
 
 
-
+    //adds a city into the HashMap and handles the errors (returns true if city was added successfully)
+    public static boolean addNewCity(HashMap<String, City> cityMap, String newCityName) throws InvalidInputException, IOException {
+        System.out.println("Please wait,retrieving city information...");
+        City newCity = new City(newCityName);
+        cityMap.put(newCity.getName(), newCity);
+        return true;
+    }
 
     public App() throws InvalidInputException, SQLException, IOException {
-        addNewTravellerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null,"Biribas");
-            }
-        });
         addNewTravellerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -79,6 +79,12 @@ public class App {
                     throwables.printStackTrace();
                 }
                 System.exit(0);
+            }
+        });
+        viewTravellersButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ShowTravellerWindow.main(null);
             }
         });
     }

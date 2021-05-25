@@ -36,7 +36,9 @@ public class NewTravellerWindow {
                 } catch (IOException ioException) {
                     JOptionPane.showMessageDialog(frame, "City Not Found!", "Not Found!", JOptionPane.ERROR_MESSAGE);
                 } catch (InvalidInputException invalidInputException) {
-                    JOptionPane.showMessageDialog(frame, "Invalid Input!\n Make sure you include a comma and the two letter country code in the current city field", "Invalid Input!", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(frame, "Invalid Input!\nMake sure you include a comma and the two letter country code in the current city field!", "Invalid Input!", JOptionPane.ERROR_MESSAGE);
+                } catch (InvalidAgeException invalidAgeException) {
+                    JOptionPane.showMessageDialog(frame, "Invalid Age!\nPlease Enter An Age Between 16 And 115", "Invalid Age!", JOptionPane.ERROR_MESSAGE);
                 }
                 if(added){
                     frame.dispose();
@@ -45,7 +47,7 @@ public class NewTravellerWindow {
         });
     }
 
-    private void NewTravellerBackend() throws IOException,InvalidInputException {
+    private void NewTravellerBackend() throws IOException, InvalidInputException, InvalidAgeException {
         HashMap<String,City> cityMap =App.getCityMap();
         ArrayList<Traveller> travellerList= App.getTravellerList();
         String name=NameTextBox.getText();
@@ -55,12 +57,12 @@ public class NewTravellerWindow {
         Boolean flag = false;
         while (!flag) {
             if (!cityMap.containsKey(cityName)) {
-                flag = Main.addNewCity(cityMap, cityName);
+                flag = App.addNewCity(cityMap, cityName);
             } else {
                 flag = true;
             }
         }
-        try { //create object based on age
+       //create object based on age
             if (age > 60 && age <= 115) {
                 travellerList.add(new ElderTraveller(traveller_terms, cityMap.get(cityName).getGeodesic_vector(), name));
             } else if (age > 25 && age <= 60) {
@@ -72,9 +74,6 @@ public class NewTravellerWindow {
             }
             App.setTravellerList(travellerList);
             App.setCityMap(cityMap);
-        } catch (InvalidAgeException e) {
-            System.out.println("Age: " + age + " is invalid,please specify an age between 16 and 115,traveller will not be saved!");
-        }
        added=true;
     }
     public static void main(String[] args) {
