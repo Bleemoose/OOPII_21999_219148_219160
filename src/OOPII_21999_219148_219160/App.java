@@ -1,25 +1,31 @@
 package OOPII_21999_219148_219160;
 
 import javax.swing.*;
-import javax.xml.crypto.Data;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 public class App {
-    private JButton button1;
+    private JButton addNewTravellerButton;
     private JPanel App;
-    private JButton button2;
-    private JButton button3;
-    private JButton button4;
-    private JButton button5;
+    private JButton viewTravellersButton;
+    private JButton recommendMeACityButton;
+    private JButton addNewCityToButton;
+    private JButton saveAndExitButton;
+    private JTextArea welcomePleaseMakeATextArea;
 
 
     public App() {
-        button1.addActionListener(new ActionListener() {
+        addNewTravellerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null,"Biribas");
+            }
+        });
+        addNewTravellerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
     }
