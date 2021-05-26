@@ -6,8 +6,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
-public class ShowTravellerWindow {
+public class RecommendCityWindow {
     private JTable table1;
     private JPanel panel1;
     private JButton OKButton;
@@ -47,8 +48,8 @@ public class ShowTravellerWindow {
     }
 
 
-    public ShowTravellerWindow() {
-       MyTableModel tableModel = new MyTableModel();
+    public RecommendCityWindow() {
+        RecommendCityWindow.MyTableModel tableModel = new MyTableModel();
         table1.setModel(tableModel);
         OKButton.addActionListener(new ActionListener() {
             @Override
@@ -59,7 +60,24 @@ public class ShowTravellerWindow {
         table1.addComponentListener(new ComponentAdapter() {
         });
 
+        table1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
 
+                int column = 0;
+                int row;
+                if ( (row = table1.getSelectedRow()) != -1){
+                    String value = table1.getModel().getValueAt(row, column).toString();
+                    System.out.println(value);
+                    int indx = row;
+                    City recommendedCity = App.recommendCity(App.getTravellerList().get(indx),App.getCityMap());
+                    App.getTravellerList().get(indx).setLastRecommendedCity(recommendedCity.getName());
+                    App.getTravellerList().get(indx).setTimestamp(new Date());
+                    JOptionPane.showMessageDialog(frame,"You should visit: " + recommendedCity.getName());
+                }
+            }
+        });
     }
 
     public static void main(String[] args) {
@@ -67,10 +85,10 @@ public class ShowTravellerWindow {
         int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
         int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
         frame.setLocation(x, y);
-        frame.setContentPane(new ShowTravellerWindow().panel1);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setContentPane(new RecommendCityWindow().panel1);
         frame.pack();
         frame.setVisible(true);
-    }
 
+    }
 }

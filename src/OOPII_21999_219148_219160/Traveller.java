@@ -32,7 +32,7 @@ public abstract class Traveller implements Comparable<Traveller>{
 
     public Traveller(int[] termsRating, float[] currentLocation, String fullName) {
         this.termsRating = termsRating;
-        this.currentLocation = currentLocation;
+this.currentLocation = currentLocation;
         this.fullName = fullName;
     }
 

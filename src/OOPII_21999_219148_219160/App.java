@@ -14,9 +14,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 
 public class App {
     private JButton addNewTravellerButton;
@@ -38,6 +36,21 @@ public class App {
         City newCity = new City(newCityName);
         cityMap.put(newCity.getName(), newCity);
         return true;
+    }
+
+    public static City recommendCity(Traveller traveller,HashMap<String, City> cityMap){
+        //col 0 for name col 1 similarity
+        int i = 0;
+        String[][] tmp = new String[cityMap.size()][2];
+        //iterator for the city hashmap
+        //move to next element
+        for (Map.Entry<String, City> entry : cityMap.entrySet()) {
+            tmp[i][0] = entry.getValue().getName();
+            tmp[i][1] = String.valueOf(traveller.calculate_similarity(entry.getValue()));
+            i++;
+        }
+        Arrays.sort(tmp, Comparator.comparingDouble(o -> Double.parseDouble(o[1])));
+        return cityMap.get(tmp[tmp.length-1][0]);
     }
 
     public App() throws InvalidInputException, SQLException, IOException {
@@ -92,6 +105,12 @@ public class App {
             @Override
             public void actionPerformed(ActionEvent e) {
                 AddCityWindow.main(null);
+            }
+        });
+        recommendMeACityButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                RecommendCityWindow.main(null);
             }
         });
     }
