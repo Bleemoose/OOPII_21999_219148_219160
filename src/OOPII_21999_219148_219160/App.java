@@ -38,8 +38,10 @@ public class App {
         return true;
     }
 
-    public static City recommendCity(Traveller traveller,HashMap<String, City> cityMap){
+    public static ArrayList<City> recommendCity(Traveller traveller,HashMap<String, City> cityMap,int returnAmount){
+        ArrayList<City> returnArr = new ArrayList<>();
         //col 0 for name col 1 similarity
+
         int i = 0;
         String[][] tmp = new String[cityMap.size()][2];
         //iterator for the city hashmap
@@ -50,7 +52,10 @@ public class App {
             i++;
         }
         Arrays.sort(tmp, Comparator.comparingDouble(o -> Double.parseDouble(o[1])));
-        return cityMap.get(tmp[tmp.length-1][0]);
+        for (int j = 1; j <= returnAmount ; j++){
+            returnArr.add(cityMap.get(tmp[tmp.length-j][0]));
+        }
+        return returnArr;
     }
 
     public App() throws InvalidInputException, SQLException, IOException {

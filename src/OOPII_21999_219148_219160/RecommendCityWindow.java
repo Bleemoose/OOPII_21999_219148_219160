@@ -12,6 +12,7 @@ public class RecommendCityWindow {
     private JTable table1;
     private JPanel panel1;
     private JButton OKButton;
+    private JComboBox comboBox1;
     static JFrame frame = new JFrame("Travellers");
 
     class MyTableModel extends AbstractTableModel {
@@ -69,12 +70,21 @@ public class RecommendCityWindow {
                 int row;
                 if ( (row = table1.getSelectedRow()) != -1){
                     String value = table1.getModel().getValueAt(row, column).toString();
-                    System.out.println(value);
-                    int indx = row;
-                    City recommendedCity = App.recommendCity(App.getTravellerList().get(indx),App.getCityMap());
-                    App.getTravellerList().get(indx).setLastRecommendedCity(recommendedCity.getName());
-                    App.getTravellerList().get(indx).setTimestamp(new Date());
-                    JOptionPane.showMessageDialog(frame,"You should visit: " + recommendedCity.getName());
+
+                    int howMany = Integer.parseInt(comboBox1.getSelectedItem().toString());
+                    ArrayList<City> recommendedCities = new ArrayList<>(howMany);
+                    recommendedCities = App.recommendCity(App.getTravellerList().get(row),App.getCityMap(),howMany);
+
+                    App.getTravellerList().get(row).setLastRecommendedCity(recommendedCities.get(0).getName());
+                    App.getTravellerList().get(row).setTimestamp(new Date());
+
+                    String printString = ""; //used to print the dialog later
+                    for (int i = 0 ; i < howMany ; i++){
+                        System.out.println(recommendedCities.get(i).getName());
+                        printString += recommendedCities.get(i).getName()+"\n";
+                    }
+
+                    JOptionPane.showMessageDialog(frame,"You should visit:\n" + printString);
                 }
             }
         });
