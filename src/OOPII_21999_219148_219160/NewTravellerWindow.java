@@ -41,6 +41,9 @@ public class NewTravellerWindow {
                 } catch (InvalidAgeException invalidAgeException) {
                     JOptionPane.showMessageDialog(frame, "Invalid Age!\nPlease Enter An Age Between 16 And 115", "Invalid Age!", JOptionPane.ERROR_MESSAGE);
                 }
+                catch (NumberFormatException nfe){
+                    JOptionPane.showMessageDialog(frame, "Input cant be Blank", "Invalid Input!", JOptionPane.WARNING_MESSAGE);
+                }
                 if(added){
                     frame.dispose();
                 }
@@ -79,7 +82,7 @@ public class NewTravellerWindow {
     }
     public static void main(String[] args) {
         frame.setContentPane(new NewTravellerWindow().panel1);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
