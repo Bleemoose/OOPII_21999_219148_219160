@@ -88,6 +88,12 @@ public class App {
                 ShowTravellerWindow.main(null);
             }
         });
+        addNewCityToButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AddCityWindow.main(null);
+            }
+        });
     }
 
     public static void main(String[] args) throws IOException, InvalidInputException, SQLException {
