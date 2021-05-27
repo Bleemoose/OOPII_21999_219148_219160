@@ -4,7 +4,7 @@
     <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/../datastructuresassignment" />
     <option name="LOCALE" value="en_US" />
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="adopt-openjdk-1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>

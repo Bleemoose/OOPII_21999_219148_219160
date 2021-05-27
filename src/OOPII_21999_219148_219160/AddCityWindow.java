@@ -44,6 +44,7 @@ public class AddCityWindow {
     }
 
     public static void main(String[] args) {
+        added=false;
         frame.setContentPane(new AddCityWindow().Panel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();

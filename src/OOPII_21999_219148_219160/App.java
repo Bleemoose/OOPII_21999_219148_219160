@@ -3,16 +3,23 @@ package OOPII_21999_219148_219160;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.formdev.flatlaf.FlatDarculaLaf;
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -121,7 +128,8 @@ public class App {
 
     public static void main(String[] args) throws IOException, InvalidInputException, SQLException, UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         //Here we handle the connection the database
-
+        FlatDarkLaf.setup();
+        UIManager.setLookAndFeel( new FlatDarkLaf() );
         while (true) {
             try {
                 DbConnector dbc = new DbConnector();
@@ -143,7 +151,7 @@ public class App {
         File f = new File("travellers.json");
         travellerList = new ArrayList<>();
         if (f.exists()) { //try to load travellers only if json file exists
-            String deserializedJsonString = Files.readString(f.toPath());
+            String deserializedJsonString = new String( Files.readAllBytes( Paths.get(f.toPath().toString()) ) );
             Clients cl_temp = mapper.readValue(deserializedJsonString, Clients.class); //deserialize from template class clients
             travellerList = (ArrayList<Traveller>) cl_temp.getTravellers();
         }

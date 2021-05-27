@@ -9,6 +9,7 @@
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/ojdbc7.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/orai18n.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/simplefan.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/flatlaf-1.2.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/jackson-core-2.12.3.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/jackson-databind-2.12.3.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/jackson-annotations-2.12.3.jar" path-in-jar="/" />

@@ -26,7 +26,7 @@ public class NewTravellerWindow {
     private JComboBox nightBox;
     static JFrame frame = new JFrame("Add New Traveller");
     private static Boolean added=false;
-
+    
 
     public NewTravellerWindow() {
         OKButton.addActionListener(new ActionListener() {
@@ -42,7 +42,7 @@ public class NewTravellerWindow {
                     JOptionPane.showMessageDialog(frame, "Invalid Age!\nPlease Enter An Age Between 16 And 115", "Invalid Age!", JOptionPane.ERROR_MESSAGE);
                 }
                 catch (NumberFormatException nfe){
-                    JOptionPane.showMessageDialog(frame, "Input cant be Blank", "Invalid Input!", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(frame, "Please Fill All Fields!", "Invalid Input!", JOptionPane.WARNING_MESSAGE);
                 }
                 if(added){
                     frame.dispose();
@@ -81,6 +81,7 @@ public class NewTravellerWindow {
        added=true;
     }
     public static void main(String[] args) {
+        added=false;
         frame.setContentPane(new NewTravellerWindow().panel1);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
