@@ -23,7 +23,6 @@ public class App {
     private JButton recommendMeACityButton;
     private JButton addNewCityToButton;
     private JButton saveAndExitButton;
-    private JTextArea welcomePleaseMakeATextArea;
     private static HashMap<String, City> cityMap;
     private static ArrayList<Traveller> travellerList;
     static JFrame frame = new JFrame("App");
@@ -120,7 +119,7 @@ public class App {
         });
     }
 
-    public static void main(String[] args) throws IOException, InvalidInputException, SQLException {
+    public static void main(String[] args) throws IOException, InvalidInputException, SQLException, UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         //Here we handle the connection the database
 
         while (true) {

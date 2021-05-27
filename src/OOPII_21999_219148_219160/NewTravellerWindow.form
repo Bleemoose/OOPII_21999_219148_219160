@@ -102,7 +102,7 @@
       </component>
       <vspacer id="3d91b">
         <constraints>
-          <grid row="0" column="4" row-span="10" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="4" row-span="9" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
         </constraints>
       </vspacer>
       <component id="1dd0b" class="javax.swing.JLabel">
@@ -347,6 +347,14 @@
         </constraints>
         <properties>
           <text value="OK"/>
+        </properties>
+      </component>
+      <component id="ca6a3" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="0" column="3" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Please Enter How Much You Like the Following:"/>
         </properties>
       </component>
     </children>
