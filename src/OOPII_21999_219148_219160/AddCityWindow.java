@@ -23,6 +23,8 @@ public class AddCityWindow {
                     JOptionPane.showMessageDialog(frame, "Invalid Input!\nMake sure you include a comma and the two letter country code in the current city field!", "Invalid Input!", JOptionPane.ERROR_MESSAGE);
                 } catch (IOException ioException) {
                     JOptionPane.showMessageDialog(frame, "City Not Found!", "Not Found!", JOptionPane.ERROR_MESSAGE);
+                } catch (InterruptedException interruptedException) {
+                    interruptedException.printStackTrace();
                 }
                 if(added){
                     JOptionPane.showMessageDialog(frame,"City added successfully!","Success",JOptionPane.INFORMATION_MESSAGE);
@@ -32,7 +34,7 @@ public class AddCityWindow {
         });
     }
 
-    private void AddCityWindowBackend() throws InvalidInputException, IOException {
+    private void AddCityWindowBackend() throws InvalidInputException, IOException, InterruptedException {
         String newCityName = CityNameTextField.getText();
         if (!App.getCityMap().containsKey(newCityName)) {
             added = App.addNewCity(App.getCityMap(), newCityName);

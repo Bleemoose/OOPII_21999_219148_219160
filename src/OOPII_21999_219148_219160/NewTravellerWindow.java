@@ -43,6 +43,8 @@ public class NewTravellerWindow {
                 }
                 catch (NumberFormatException nfe){
                     JOptionPane.showMessageDialog(frame, "Please Fill All Fields!", "Invalid Input!", JOptionPane.WARNING_MESSAGE);
+                } catch (InterruptedException interruptedException) {
+                    interruptedException.printStackTrace();
                 }
                 if(added){
                     frame.dispose();
@@ -51,7 +53,7 @@ public class NewTravellerWindow {
         });
     }
 
-    private void NewTravellerBackend() throws IOException, InvalidInputException, InvalidAgeException {
+    private void NewTravellerBackend() throws IOException, InvalidInputException, InvalidAgeException, InterruptedException {
         HashMap<String,City> cityMap =App.getCityMap();
         ArrayList<Traveller> travellerList= App.getTravellerList();
         String name=NameTextBox.getText();

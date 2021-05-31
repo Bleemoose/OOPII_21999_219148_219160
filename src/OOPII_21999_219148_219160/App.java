@@ -37,7 +37,7 @@ public class App {
 
 
     //adds a city into the HashMap and handles the errors (returns true if city was added successfully)
-    public static boolean addNewCity(HashMap<String, City> cityMap, String newCityName) throws InvalidInputException, IOException {
+    public static boolean addNewCity(HashMap<String, City> cityMap, String newCityName) throws InvalidInputException, IOException, InterruptedException {
         System.out.println("Please wait,retrieving city information...");
         City newCity = new City(newCityName);
         cityMap.put(newCity.getName(), newCity);

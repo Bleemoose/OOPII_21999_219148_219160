@@ -33,16 +33,36 @@ class InvalidInputException extends Exception{
 }
 
 public class City {
+
     private String name;
     private int[] terms_vector;
     private float[] geodesic_vector;
 
     //constructor that uses the API to find the city
-    public City(String name) throws IOException, InvalidInputException {
+    public City(String name) throws IOException, InvalidInputException, InterruptedException {
+        OWMThread owmThread=new OWMThread();
+        owmThread.setCityName(name);
+        owmThread.start();
         this.name=name;
-        geodesic_vector = getLocInfo(name);
         terms_vector = getTerms(name);
-
+        WikiMediaThread wmtThread=new WikiMediaThread();
+        wmtThread.setCityName(name);
+        wmtThread.start();
+        owmThread.join();
+        String returnedName=owmThread.getCityName();
+        if(returnedName=="CNF"){
+            throw new IOException();
+        }
+        wmtThread.join();
+        String returned= wmtThread.getReturned();
+        if(returned=="CNF"){
+            throw new IOException(name);
+        }
+        else if(returned=="INV"){
+            throw new InvalidInputException(name);
+        }
+        geodesic_vector=owmThread.getData();
+        terms_vector=wmtThread.getTerms_temp();
     }
     //constructor used when loading from DB tha manually adds the city info
     public City(String name,float[] geodesic_vector,int[] terms_vector) throws IOException, InvalidInputException {
@@ -91,7 +111,7 @@ public class City {
 
     private int[] getTerms(String name) throws IOException, InvalidInputException {
         int[] terms_temp=new int[10];
-        String nameFinal;
+        String nameFinal = null;
         String[] parts = new String[2];
         //look for these words
         String [] term_names={"museum","history","car","bike","food","mountain","cafe","shopping","sea","nightlife"};
@@ -105,7 +125,7 @@ public class City {
             nameFinal = name.substring( 0, name.indexOf(",")); //removes comma from search
         }
         else{
-            throw new InvalidInputException(name);
+            //throw new InvalidInputException(name);
         }
         final ObjectNode node=new ObjectMapper().readValue(new URL("https://en.wikipedia.org/w/api.php?action=query&prop=extracts&titles="+nameFinal+"&format=json&formatversion=2"),ObjectNode.class);
         JsonNode jsonPages=node.get("query").get("pages");
