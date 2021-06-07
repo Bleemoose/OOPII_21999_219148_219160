@@ -1,5 +1,7 @@
 package OOPII_21999_219148_219160;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.awt.*;
@@ -13,6 +15,9 @@ public class RecommendCityWindow {
     private JPanel panel1;
     private JButton OKButton;
     private JComboBox comboBox1;
+    private JRadioButton recommendByCriteriaRadioButton;
+    private JRadioButton recommendBySimilarTravellersRadioButton;
+    private ButtonGroup group = new ButtonGroup();
     static JFrame frame = new JFrame("Travellers");
 
     class MyTableModel extends AbstractTableModel {
@@ -50,6 +55,8 @@ public class RecommendCityWindow {
 
 
     public RecommendCityWindow() {
+        group.add(recommendByCriteriaRadioButton);
+        group.add(recommendBySimilarTravellersRadioButton);
         RecommendCityWindow.MyTableModel tableModel = new MyTableModel();
         table1.setModel(tableModel);
         OKButton.addActionListener(new ActionListener() {
@@ -65,25 +72,29 @@ public class RecommendCityWindow {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-
                 int column = 0;
                 int row;
+                int howMany = Integer.parseInt(comboBox1.getSelectedItem().toString());
+                ArrayList<City> recommendedCities = new ArrayList<>(howMany);
+                String printString=null;
                 if ( (row = table1.getSelectedRow()) != -1){
                     String value = table1.getModel().getValueAt(row, column).toString();
 
-                    int howMany = Integer.parseInt(comboBox1.getSelectedItem().toString());
-                    ArrayList<City> recommendedCities = new ArrayList<>(howMany);
-                    recommendedCities = App.recommendCity(App.getTravellerList().get(row),App.getCityMap(),howMany);
+                    if(recommendBySimilarTravellersRadioButton.isSelected()) {
+                        recommendedCities = App.recommendCityCollaborative(App.getTravellerList().get(row), howMany);
+                    }
+                    if(recommendByCriteriaRadioButton.isSelected()) {
+                        recommendedCities = App.recommendCity(App.getTravellerList().get(row), App.getCityMap(), howMany);
 
+                    }
                     App.getTravellerList().get(row).setLastRecommendedCity(recommendedCities.get(0).getName());
                     App.getTravellerList().get(row).setTimestamp(new Date());
 
-                    String printString = ""; //used to print the dialog later
-                    for (int i = 0 ; i < howMany ; i++){
+                    printString = ""; //used to print the dialog later
+                    for (int i = 0; i < howMany; i++) {
                         System.out.println(recommendedCities.get(i).getName());
-                        printString += recommendedCities.get(i).getName()+"\n";
+                        printString += recommendedCities.get(i).getName() + "\n";
                     }
-
                     JOptionPane.showMessageDialog(frame,"You should visit:\n" + printString);
                 }
             }

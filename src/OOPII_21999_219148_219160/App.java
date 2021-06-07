@@ -64,14 +64,14 @@ public class App {
         return returnArr;
     }
 
-    public static String[] recommendCityCollaborative(Traveller currentTraveller, int returnAmount){
+    public static ArrayList<City> recommendCityCollaborative(Traveller currentTraveller, int returnAmount){
         System.out.println(currentTraveller.getFullName() + " " + currentTraveller.getClass());
         List<Traveller> tempList=travellerList.stream().filter(t->t.getFullName()!= currentTraveller.getFullName()).filter(t->t.getLastRecommendedCity() != null).filter(t->t.getClass() == currentTraveller.getClass())
                 .sorted((Traveller t1,Traveller t2)->t2.compareTo(currentTraveller) - t1.compareTo(currentTraveller))
                 .collect(Collectors.toList());
-        String[] results=new String[returnAmount];
+        ArrayList<City> results =new ArrayList<>();
         for (int i = 0; i < returnAmount; i++) {
-            results[i]=tempList.get(i).getLastRecommendedCity();
+            results.add(cityMap.get(tempList.get(i).getLastRecommendedCity()));
         }
         return results;
     }
@@ -177,7 +177,6 @@ public class App {
         frame.setLocation(x, y);
         frame.pack();
         frame.setVisible(true);
-        System.out.println(Arrays.toString(recommendCityCollaborative(travellerList.get(0),4)));
     }
 
     public static HashMap<String, City> getCityMap() {
