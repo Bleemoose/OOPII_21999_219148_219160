@@ -189,9 +189,20 @@ this.currentLocation = currentLocation;
         return returnArr;
     }
     public int compareTo(Traveller o) {
-        //aplos tsekare timestamps <3
-        //returns 0 if dates are equal returns >0 if this is after 0 and <0 if o is after this
-        return this.timestamp.compareTo(o.timestamp);
+        int score = 0;
+        for (int i = 0; i < termsRating.length ; i++){
+            if (o.getTermsRating()[i] == this.termsRating[i]){
+                score += 3;
+            }else if(o.getTermsRating()[i] - this.termsRating[i] == 1){
+                score += 2;
+            }else if(o.getTermsRating()[i] - this.termsRating[i] == 2){
+                score += 1;
+            }else{
+                score +=0;
+            }
+        }
+        System.out.println();
+        return score;
     }
 
 
