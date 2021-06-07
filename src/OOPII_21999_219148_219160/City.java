@@ -40,11 +40,10 @@ public class City {
 
     //constructor that uses the API to find the city
     public City(String name) throws IOException, InvalidInputException, InterruptedException {
+        this.name=name;
         OWMThread owmThread=new OWMThread();
         owmThread.setCityName(name);
         owmThread.start();
-        this.name=name;
-        terms_vector = getTerms(name);
         WikiMediaThread wmtThread=new WikiMediaThread();
         wmtThread.setCityName(name);
         wmtThread.start();
