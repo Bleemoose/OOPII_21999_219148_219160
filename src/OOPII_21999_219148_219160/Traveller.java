@@ -1,11 +1,5 @@
 package OOPII_21999_219148_219160;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -40,7 +34,6 @@ this.currentLocation = currentLocation;
 
     }
 
-    //setters getters
     public int[] getTermsRating() {
         return termsRating;
     }
@@ -201,7 +194,6 @@ this.currentLocation = currentLocation;
                 score +=0;
             }
         }
-        System.out.println();
         return score;
     }
 

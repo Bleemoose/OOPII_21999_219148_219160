@@ -3,25 +3,21 @@ package OOPII_21999_219148_219160;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatDarkLaf;
-import com.formdev.flatlaf.FlatIntelliJLaf;
-import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class App {
     private JButton addNewTravellerButton;
@@ -69,10 +65,9 @@ public class App {
 
     public static void recommendCityCollaborative(Traveller currentTraveller,int returnAmount){
         System.out.println(currentTraveller.getFullName() + " " + currentTraveller.getClass());
-
-        travellerList.stream().filter(t->t.getLastRecommendedCity() != null).filter(t->t.getClass() == currentTraveller.getClass())
-        .sorted((t1,t2)->currentTraveller.compareTo(t2)).forEach(e-> System.out.println(e.getFullName()+ " " + e.getClass()));
-
+        Stream <Traveller> travellersStr =travellerList.stream().filter(t->t.getLastRecommendedCity() != null).filter(t->t.getClass() == currentTraveller.getClass())
+                .sorted((Traveller t1,Traveller t2)->t2.compareTo(currentTraveller) - t1.compareTo(currentTraveller));
+        travellersStr.forEach(s-> System.out.println(s.getFullName()));
     }
 
     public App() throws InvalidInputException, SQLException, IOException {
@@ -176,7 +171,7 @@ public class App {
         frame.setLocation(x, y);
         frame.pack();
         frame.setVisible(true);
-        recommendCityCollaborative(travellerList.get(6),6);
+        recommendCityCollaborative(travellerList.get(0),6);
     }
 
     public static HashMap<String, City> getCityMap() {
