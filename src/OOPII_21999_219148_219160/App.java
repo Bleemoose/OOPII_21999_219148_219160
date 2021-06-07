@@ -44,6 +44,9 @@ public class App {
         return true;
     }
 
+
+
+    //cityMap is already part of App class so you can just change it and not use it as parameter
     public static ArrayList<City> recommendCity(Traveller traveller,HashMap<String, City> cityMap,int returnAmount){
         ArrayList<City> returnArr = new ArrayList<>();
         //col 0 for name col 1 similarity
@@ -62,6 +65,14 @@ public class App {
             returnArr.add(cityMap.get(tmp[tmp.length-j][0]));
         }
         return returnArr;
+    }
+
+    public static void recommendCityCollaborative(Traveller currentTraveller,int returnAmount){
+        System.out.println(currentTraveller.getFullName() + " " + currentTraveller.getClass());
+
+        travellerList.stream().filter(t->t.getLastRecommendedCity() != null).filter(t->t.getClass() == currentTraveller.getClass())
+        .sorted((t1,t2)->currentTraveller.compareTo(t2)).forEach(e-> System.out.println(e.getFullName()+ " " + e.getClass()));
+
     }
 
     public App() throws InvalidInputException, SQLException, IOException {
@@ -165,6 +176,7 @@ public class App {
         frame.setLocation(x, y);
         frame.pack();
         frame.setVisible(true);
+        recommendCityCollaborative(travellerList.get(6),6);
     }
 
     public static HashMap<String, City> getCityMap() {

@@ -29,4 +29,6 @@ public class ElderTraveller extends Traveller{
         }
         return sum_intersection/sum_union;
     }
+
+
 }
