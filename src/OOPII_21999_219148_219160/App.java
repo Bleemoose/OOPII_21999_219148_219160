@@ -17,7 +17,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.stream.Stream;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class App {
     private JButton addNewTravellerButton;
@@ -63,11 +64,16 @@ public class App {
         return returnArr;
     }
 
-    public static void recommendCityCollaborative(Traveller currentTraveller,int returnAmount){
+    public static String[] recommendCityCollaborative(Traveller currentTraveller, int returnAmount){
         System.out.println(currentTraveller.getFullName() + " " + currentTraveller.getClass());
-        Stream <Traveller> travellersStr =travellerList.stream().filter(t->t.getLastRecommendedCity() != null).filter(t->t.getClass() == currentTraveller.getClass())
-                .sorted((Traveller t1,Traveller t2)->t2.compareTo(currentTraveller) - t1.compareTo(currentTraveller));
-        travellersStr.forEach(s-> System.out.println(s.getFullName()));
+        List<Traveller> tempList=travellerList.stream().filter(t->t.getFullName()!= currentTraveller.getFullName()).filter(t->t.getLastRecommendedCity() != null).filter(t->t.getClass() == currentTraveller.getClass())
+                .sorted((Traveller t1,Traveller t2)->t2.compareTo(currentTraveller) - t1.compareTo(currentTraveller))
+                .collect(Collectors.toList());
+        String[] results=new String[returnAmount];
+        for (int i = 0; i < returnAmount; i++) {
+            results[i]=tempList.get(i).getLastRecommendedCity();
+        }
+        return results;
     }
 
     public App() throws InvalidInputException, SQLException, IOException {
@@ -171,7 +177,7 @@ public class App {
         frame.setLocation(x, y);
         frame.pack();
         frame.setVisible(true);
-        recommendCityCollaborative(travellerList.get(0),6);
+        System.out.println(Arrays.toString(recommendCityCollaborative(travellerList.get(0),4)));
     }
 
     public static HashMap<String, City> getCityMap() {
