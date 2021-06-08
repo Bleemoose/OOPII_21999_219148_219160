@@ -13,6 +13,41 @@ public class ShowTravellerWindow {
     private JButton OKButton;
     static JFrame frame = new JFrame("Travellers");
 
+
+
+    //returns the position if traveller is found else returns -1
+    public static int containsTravellerByName(String travellerName,ArrayList<Traveller> travellers){
+        for (int i = 0; i < travellers.size() ; i++){
+            if (travellers.get(i).getFullName().equals(travellerName)){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+
+    public static ArrayList<Traveller> filterTravellerList(ArrayList<Traveller> travellerList){
+        ArrayList<Traveller> filteredTravellerList = new ArrayList<>();
+
+
+        int pos;
+        for (int i =0 ; i < travellerList.size() ; i++){
+            if (( pos = containsTravellerByName(travellerList.get(i).getFullName(),filteredTravellerList)) != -1){
+
+                if(travellerList.get(i).getTimestamp() != null) {
+                    if (travellerList.get(i).getTimestamp().compareTo(filteredTravellerList.get(pos).getTimestamp()) > 0) {
+                        filteredTravellerList.remove(pos);
+                        filteredTravellerList.add(travellerList.get(i));
+                    }
+                }
+            }else{
+                filteredTravellerList.add(travellerList.get(i));
+            }
+
+        }
+    return filteredTravellerList;
+    }
+
     class MyTableModel extends AbstractTableModel {
 
         private String[] columnNames = {"Full Name", "Current Location",
@@ -21,9 +56,14 @@ public class ShowTravellerWindow {
         Object[][] data = populateList();
 
         public Object[][] populateList(){
-            ArrayList<Traveller> travellerList=App.getTravellerList();
+            ArrayList<Traveller> travellerList= filterTravellerList(App.getTravellerList());
             Object[][] tempArr=new Object[travellerList.size()][];
+
+
             for (int i = 0; i < travellerList.size(); i++) {
+
+
+
                 tempArr[i]=new Object[]{travellerList.get(i).getFullName(), Arrays.toString(travellerList.get(i).getCurrentLocation()),Arrays.toString(travellerList.get(i).getTermsRating()),travellerList.get(i).getLastRecommendedCity(),travellerList.get(i).getTimestamp()};
             }
             return tempArr;
