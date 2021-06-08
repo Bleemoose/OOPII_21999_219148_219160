@@ -57,6 +57,7 @@ public class RecommendCityWindow {
     public RecommendCityWindow() {
         group.add(recommendByCriteriaRadioButton);
         group.add(recommendBySimilarTravellersRadioButton);
+        recommendBySimilarTravellersRadioButton.setSelected(true);
         RecommendCityWindow.MyTableModel tableModel = new MyTableModel();
         table1.setModel(tableModel);
         OKButton.addActionListener(new ActionListener() {
@@ -75,16 +76,30 @@ public class RecommendCityWindow {
                 int column = 0;
                 int row;
                 int howMany = Integer.parseInt(comboBox1.getSelectedItem().toString());
+
+
+
                 ArrayList<City> recommendedCities = new ArrayList<>(howMany);
                 String printString=null;
                 if ( (row = table1.getSelectedRow()) != -1){
                     String value = table1.getModel().getValueAt(row, column).toString();
 
-                    if(recommendBySimilarTravellersRadioButton.isSelected()) {
-                        recommendedCities = App.recommendCityCollaborative(App.getTravellerList().get(row), howMany);
-                    }
                     if(recommendByCriteriaRadioButton.isSelected()) {
+
                         recommendedCities = App.recommendCity(App.getTravellerList().get(row), App.getCityMap(), howMany);
+
+                    }
+
+                    if(recommendBySimilarTravellersRadioButton.isSelected()) {
+                        //check if there are enough people to compare to
+                        if (howMany > (App.getTravellerList().size() - 1) ){
+                            JOptionPane.showMessageDialog(frame,"Not enough travellers to recommend you a similar destination","WARNING",JOptionPane.WARNING_MESSAGE);
+                            return;
+                        }else{
+                            recommendedCities = App.recommendCityCollaborative(App.getTravellerList().get(row),howMany);
+
+                        }
+
 
                     }
                     App.getTravellerList().get(row).setLastRecommendedCity(recommendedCities.get(0).getName());
