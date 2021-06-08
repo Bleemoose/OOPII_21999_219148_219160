@@ -86,7 +86,7 @@ public class RecommendCityWindow {
 
                     if(recommendByCriteriaRadioButton.isSelected()) {
 
-                        recommendedCities = App.recommendCity(App.getTravellerList().get(row), App.getCityMap(), howMany);
+                        recommendedCities = App.recommendCity(App.getTravellerList().get(row), howMany);
 
                     }
 

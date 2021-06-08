@@ -43,8 +43,8 @@ public class App {
 
 
 
-    //cityMap is already part of App class so you can just change it and not use it as parameter
-    public static ArrayList<City> recommendCity(Traveller traveller,HashMap<String, City> cityMap,int returnAmount){
+
+    public static ArrayList<City> recommendCity(Traveller traveller,int returnAmount){
         ArrayList<City> returnArr = new ArrayList<>();
         //col 0 for name col 1 similarity
 
