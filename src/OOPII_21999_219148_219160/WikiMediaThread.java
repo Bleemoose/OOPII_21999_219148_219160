@@ -41,7 +41,11 @@ public class WikiMediaThread extends Thread{
             final ObjectNode node = new ObjectMapper().readValue(new URL("https://en.wikipedia.org/w/api.php?action=query&prop=extracts&titles=" + nameFinal + "&format=json&formatversion=2"), ObjectNode.class);
             JsonNode jsonPages = node.get("query").get("pages");
             for (int i = 0; i < terms_temp.length; i++) {
-                terms_temp[i] = CountWords.countCriterionfCity(jsonPages.toString(), term_names[i]);
+                int tempTerm= CountWords.countCriterionfCity(jsonPages.toString(), term_names[i]);
+                if(tempTerm>10){
+                    tempTerm=10;
+                }
+                terms_temp[i]=tempTerm;
             }
         } catch (IOException e) {
             returned = "CNF";
