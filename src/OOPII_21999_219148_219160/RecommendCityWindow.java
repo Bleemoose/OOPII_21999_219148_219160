@@ -92,7 +92,7 @@ public class RecommendCityWindow {
 
                     if(recommendBySimilarTravellersRadioButton.isSelected()) {
                         //check if there are enough people to compare to
-                        if (howMany > (App.getTravellerList().size() - 1) ){
+                        if (howMany > (App.getTravellerList().stream().filter(t->t.getClass() == App.getTravellerList().get(row).getClass()).toArray().length - 1) ){
                             JOptionPane.showMessageDialog(frame,"Not enough travellers to recommend you a similar destination","WARNING",JOptionPane.WARNING_MESSAGE);
                             return;
                         }else{
