@@ -100,7 +100,7 @@ public class City {
     //location retriever
     private float[] getLocInfo(String  name) throws IOException {
         float[] data=new float[2];
-        String APIid="eeba41d7d3d95a8dad6d4c3ae375f602";
+        String APIid="your owm api key here";
         ObjectNode node=new ObjectMapper().readValue(new URL("https://api.openweathermap.org/data/2.5/weather?q="+name+"&APPID="+APIid),ObjectNode.class);
         JsonNode coords=node.get("coord");
         data[0]=Float.parseFloat(coords.get("lon").asText());
